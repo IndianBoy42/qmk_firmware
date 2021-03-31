@@ -16,4 +16,6 @@
 
 #pragma once
 
-// place overrides here
+// Soldered an extra strip of RGB :)
+#undef RGBLED_NUM
+#define RGBLED_NUM 19  // 7 + 12
