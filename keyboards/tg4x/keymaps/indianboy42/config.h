@@ -19,3 +19,5 @@
 // Soldered an extra strip of RGB :)
 #undef RGBLED_NUM
 #define RGBLED_NUM 19  // 7 + 12
+
+#define RGBLIGHT_LAYERS
