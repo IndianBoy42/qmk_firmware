@@ -19,3 +19,56 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[4] = NULL_LAYER, [5] = NULL_LAYER, [6] = NULL_LAYER, [7] = NULL_LAYER, [8] = NULL_LAYER, [9] = NULL_LAYER, [10] = NULL_LAYER, [11] = NULL_LAYER, [12] = NULL_LAYER, [13] = NULL_LAYER, [14] = NULL_LAYER, [15] = LAYOUT(RESET, KC_MUTE, KC_VOLD, KC_VOLU, KC_BRID, KC_BRIU, RGB_TOG, RGB_VAI, RGB_VAD, RGB_SPI, RGB_SPD, RGB_MOD, RGB_RMOD, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_CAPS, KC_SLCK, KC_NLCK, KC_NO, RGB_SAD, RGB_SAI, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS, RGB_M_P, RGB_M_B, RGB_M_R, RGB_HUI, RGB_HUD, RGB_M_SW, RGB_M_K, RGB_M_X, RGB_M_G)
 };
 // clang-format on
+
+// TODO: WIP
+#define KBD_MAPPING(X) \
+    KESC(X)                 \
+    KQ(X)                   \
+    KW(X)                   \
+    KE(X)                   \
+    KR(X)                   \
+    KT(X)                   \
+    KY(X)                   \
+    KU(X)                   \
+    KI(X)                   \
+    KO(X)                   \
+    KP(X)                   \
+    KDEL(X)                 \
+    KBSPC(X)                \
+    KTAB(X)                 \
+    KA(X)                   \
+    KS(X)                   \
+    KD(X)                   \
+    KF(X)                   \
+    KG(X)                   \
+    KH(X)                   \
+    KJ(X)                   \
+    KK(X)                   \
+    KL(X)                   \
+    KSCLN(X)                \
+    KENT(X)                 \
+    KLSFT(X)                \
+    KZ(X)                   \
+    KX(X)                   \
+    KC(X)                   \
+    KV(X)                   \
+    KB(X)                   \
+    KN(X)                   \
+    KM(X)                   \
+    KCOMM(X)                \
+    KDOT(X)                 \
+    KUP(X)                  \
+    KMO15(X)                \
+    KLCTL(X)                \
+    KLGUI(X)                \
+    KLALT(X)                \
+    KSYM(X)                 \
+    KSPC(X)                 \
+    KSSYM(X)                \
+    KLEFT(X)                \
+    KDOWN(X)                \
+    KRGHT(X)
+
+const uint16_t PROGMEM keymaps2[][MATRIX_ROWS][MATRIX_COLS] = {
+IB42_LAYER_TABLE(X_KEYMAP_ARRAY)
+};
