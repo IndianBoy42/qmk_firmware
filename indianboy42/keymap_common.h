@@ -31,7 +31,9 @@ enum custom_keycodes {
     X(TABNAVI, X__LAYER_3, X_LT, KC_TAB, MOD_NONE) \
     X(KBDMGMT, X__LAYER_4, X_MO, NO_ALT, MOD_NONE)
 
-// #define KBD_MAPPING
+#ifndef KBD_MAPPING
+#    define KBD_MAPPING()
+#endif
 #define X_ID_NAME(NAME) ID_LAYER_##NAME
 #define X_ID_ENUM(NAME, ...) X_ID_NAME(NAME),
 #define X_LAYOUT_HELPER(...) LAYOUT(__VA_ARGS__)
