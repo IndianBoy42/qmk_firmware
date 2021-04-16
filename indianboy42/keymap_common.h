@@ -1,8 +1,5 @@
 #pragma once
 
-#define KEY_ESC_0 KC_GESC
-#define KEY_ESC_1 KC_GESC
-
 #define _ KC_TRNS
 #define LCS(...) LCTL(LSFT(__VA_ARGS__))
 #define KC_LCS C_S_T(OSM(MOD_LCTL | MOD_LSFT))
@@ -16,6 +13,41 @@
 enum custom_keycodes {
     KC_DUMMY_CUSTOM = SAFE_RANGE,
 };
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define X__LAYER_0(L0, ...) L0,
+#define X__LAYER_1(L0, L1, ...) L1,
+#define X__LAYER_2(L0, L1, L2, ...) L2,
+#define X__LAYER_3(L0, L1, L2, L3, ...) L3,
+#define X__LAYER_4(L0, L1, L2, L3, L4, ...) L4,
+#define X__LAYER_5(L0, L1, L2, L3, L4, L5, ...) L5,
+#define X__LAYER_6(L0, L1, L2, L3, L4, L5, L6, ...) L6,
+#define X__LAYER_7(L0, L1, L2, L3, L4, L5, L6, L7, ...) L7,
+#define X__LAYER_8(L0, L1, L2, L3, L4, L5, L6, L7, L8, ...) L8,
+#define X__LAYER_9(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, ...) L9,
+#define X__LAYER_10(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, ...) L10,
+#define X__LAYER_11(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, ...) L11,
+#define X__LAYER_12(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, ...) L12,
+#define X__LAYER_13(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, ...) L13,
+#define X__LAYER_14(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, ...) L14,
+#define X__LAYER_15(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, ...) L15,
+#define X_SFTLYR_0(L0, ...) LSFT(L0),
+#define X_SFTLYR_1(L0, L1, ...) LSFT(L1),
+#define X_SFTLYR_2(L0, L1, L2, ...) LSFT(L2),
+#define X_SFTLYR_3(L0, L1, L2, L3, ...) LSFT(L3),
+#define X_SFTLYR_4(L0, L1, L2, L3, L4, ...) LSFT(L4),
+#define X_SFTLYR_5(L0, L1, L2, L3, L4, L5, ...) LSFT(L5),
+#define X_SFTLYR_6(L0, L1, L2, L3, L4, L5, L6, ...) LSFT(L6),
+#define X_SFTLYR_7(L0, L1, L2, L3, L4, L5, L6, L7, ...) LSFT(L7),
+#define X_SFTLYR_8(L0, L1, L2, L3, L4, L5, L6, L7, L8, ...) LSFT(L8),
+#define X_SFTLYR_9(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, ...) LSFT(L9),
+#define X_SFTLYR_10(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, ...) LLSFT(10),
+#define X_SFTLYR_11(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, ...) LLSFT(11),
+#define X_SFTLYR_12(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, ...) LLSFT(12),
+#define X_SFTLYR_13(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, ...) LLSFT(13),
+#define X_SFTLYR_14(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, ...) LLSFT(14),
+#define X_SFTLYR_15(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, ...) LLSFT(15),
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -123,38 +155,3 @@ enum { ID_LAYER_BASE = 0, ID_LAYER_SYMBOLS, ID_LAYER_ENTCMBO, ID_LAYER_TABNAVI, 
 #define KN(X)               X(KC_N,           KC_SLSH,       _,           KC_HOME,            KC_NO) 
 #define KM(X)               X(KC_M,           KC_LBRC,       _,           KC_PGDN,            KC_NO)
 // clang-format on
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#define X__LAYER_0(L0, ...) L0,
-#define X__LAYER_1(L0, L1, ...) L1,
-#define X__LAYER_2(L0, L1, L2, ...) L2,
-#define X__LAYER_3(L0, L1, L2, L3, ...) L3,
-#define X__LAYER_4(L0, L1, L2, L3, L4, ...) L4,
-#define X__LAYER_5(L0, L1, L2, L3, L4, L5, ...) L5,
-#define X__LAYER_6(L0, L1, L2, L3, L4, L5, L6, ...) L6,
-#define X__LAYER_7(L0, L1, L2, L3, L4, L5, L6, L7, ...) L7,
-#define X__LAYER_8(L0, L1, L2, L3, L4, L5, L6, L7, L8, ...) L8,
-#define X__LAYER_9(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, ...) L9,
-#define X__LAYER_10(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, ...) L10,
-#define X__LAYER_11(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, ...) L11,
-#define X__LAYER_12(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, ...) L12,
-#define X__LAYER_13(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, ...) L13,
-#define X__LAYER_14(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, ...) L14,
-#define X__LAYER_15(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, ...) L15,
-#define X_SFTLYR_0(L0, ...) LSFT(L0),
-#define X_SFTLYR_1(L0, L1, ...) LSFT(L1),
-#define X_SFTLYR_2(L0, L1, L2, ...) LSFT(L2),
-#define X_SFTLYR_3(L0, L1, L2, L3, ...) LSFT(L3),
-#define X_SFTLYR_4(L0, L1, L2, L3, L4, ...) LSFT(L4),
-#define X_SFTLYR_5(L0, L1, L2, L3, L4, L5, ...) LSFT(L5),
-#define X_SFTLYR_6(L0, L1, L2, L3, L4, L5, L6, ...) LSFT(L6),
-#define X_SFTLYR_7(L0, L1, L2, L3, L4, L5, L6, L7, ...) LSFT(L7),
-#define X_SFTLYR_8(L0, L1, L2, L3, L4, L5, L6, L7, L8, ...) LSFT(L8),
-#define X_SFTLYR_9(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, ...) LSFT(L9),
-#define X_SFTLYR_10(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, ...) LLSFT(10),
-#define X_SFTLYR_11(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, ...) LLSFT(11),
-#define X_SFTLYR_12(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, ...) LLSFT(12),
-#define X_SFTLYR_13(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, ...) LLSFT(13),
-#define X_SFTLYR_14(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, ...) LLSFT(14),
-#define X_SFTLYR_15(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, ...) LLSFT(15),
