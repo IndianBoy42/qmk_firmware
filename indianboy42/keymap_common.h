@@ -57,11 +57,11 @@ enum custom_keycodes {
 #define IB42_LAYER_TABLE(X)                        \
     X(BASE___, X__LAYER_0, X_MO, NO_ALT, MOD_NONE) \
     X(SYMBOLS, X__LAYER_1, X_MO, NO_ALT, MOD_NONE) \
-    X(LSFTSYM, X_SFTLYR_1, X_MO, NO_ALT, MOD_NONE) \
     X(LSF2SYM, X__LAYER_1, X_LM, NO_ALT, MOD_LSFT) \
     X(ENTCMBO, X__LAYER_2, X_LT, KC_ENT, MOD_NONE) \
     X(TABNAVI, X__LAYER_3, X_LT, KC_TAB, MOD_NONE) \
     X(KBDMGMT, X__LAYER_4, X_MO, NO_ALT, MOD_NONE)
+// X(LSFTSYM, X_SFTLYR_1, X_MO, NO_ALT, MOD_NONE)
 
 #ifndef KBD_MAPPING
 #    define KBD_MAPPING()
@@ -154,4 +154,16 @@ enum { ID_LAYER_BASE = 0, ID_LAYER_SYMBOLS, ID_LAYER_ENTCMBO, ID_LAYER_TABNAVI, 
 #define KB(X)               X(KC_B,           KC_QUOT,       _,           KC_NO,              RGB_SAI) 
 #define KN(X)               X(KC_N,           KC_SLSH,       _,           KC_HOME,            KC_NO) 
 #define KM(X)               X(KC_M,           KC_LBRC,       _,           KC_PGDN,            KC_NO)
+#define K1(X)               X(KC_1,           KC_F1,         _,           _,                  KC_NO)
+#define K2(X)               X(KC_2,           KC_F2,         _,           _,                  KC_NO)
+#define K3(X)               X(KC_3,           KC_F3,         _,           _,                  KC_NO)
+#define K4(X)               X(KC_4,           KC_F4,         _,           _,                  KC_NO)
+#define K5(X)               X(KC_5,           KC_F5,         _,           _,                  KC_NO)
+#define K6(X)               X(KC_6,           KC_F6,         _,           _,                  KC_NO)
+#define K7(X)               X(KC_7,           KC_F7,         _,           _,                  KC_NO)
+#define K8(X)               X(KC_8,           KC_F8,         _,           _,                  KC_NO)
+#define K9(X)               X(KC_9,           KC_F9,         _,           _,                  KC_NO)
+#define K0(X)               X(KC_0,           KC_F10,        _,           _,                  KC_NO)
+#define KMINS(X)            X(KC_MINS,        KC_F11,        _,           _,                  KC_NO)
+#define KEQL(X)             X(KC_EQL,         KC_F12,        _,           _,                  KC_NO)
 // clang-format on
