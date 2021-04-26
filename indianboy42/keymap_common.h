@@ -1,5 +1,8 @@
 #pragma once
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Helper Macros
+
 #define _ KC_TRNS
 #define LCS(...) LCTL(LSFT(__VA_ARGS__))
 #define KC_LCS C_S_T(OSM(MOD_LCTL | MOD_LSFT))
@@ -15,6 +18,7 @@ enum custom_keycodes {
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Layer X-Macros
 
 #define X__LAYER_0(L0, ...) L0,
 #define X__LAYER_1(L0, L1, ...) L1,
@@ -49,28 +53,31 @@ enum custom_keycodes {
 #define X_SFTLYR_14(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, ...) LLSFT(14),
 #define X_SFTLYR_15(L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, ...) LLSFT(15),
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #define X_MO(ID, ...) MO(ID)
 #define X_LT(ID, ALT, ...) LT(ID, ALT)
 #define X_LM(ID, ALT, MODS, ...) LM(ID, MODS)
-#define IB42_LAYER_TABLE(X)                        \
-    X(BASE___, X__LAYER_0, X_MO, NO_ALT, MOD_NONE) \
-    X(SYMBOLS, X__LAYER_1, X_MO, NO_ALT, MOD_NONE) \
-    X(LSF2SYM, X__LAYER_1, X_LM, NO_ALT, MOD_LSFT) \
-    X(ENTCMBO, X__LAYER_2, X_LT, KC_ENT, MOD_NONE) \
-    X(TABNAVI, X__LAYER_3, X_LT, KC_TAB, MOD_NONE) \
-    X(KBDMGMT, X__LAYER_4, X_MO, NO_ALT, MOD_NONE)
-// X(LSFTSYM, X_SFTLYR_1, X_MO, NO_ALT, MOD_NONE)
-
-#ifndef KBD_MAPPING
-#    define KBD_MAPPING()
-#endif
 #define X_ID_NAME(NAME) ID_LAYER_##NAME
 #define X_ID_ENUM(NAME, ...) X_ID_NAME(NAME),
 #define X_LAYOUT_HELPER(...) LAYOUT(__VA_ARGS__)
 #define X_KEYMAP_ARRAY(NAME, XMACRO, ...) [X_ID_NAME(NAME)] = X_LAYOUT_HELPER(KBD_MAPPING(XMACRO)),
 #define X_KC_ENUM(NAME, XMACRO, KC, ALT, MODS) KC_##NAME = KC(X_ID_NAME(NAME), ALT, MODS),
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Defining my layers
+
+#define IB42_LAYER_TABLE(X)                        \
+    X(BASE___, X__LAYER_0, X_MO, NO_ALT, MOD_NONE) \
+    X(SYMBOLS, X__LAYER_1, X_MO, NO_ALT, MOD_NONE) \
+    X(LSFTSYM, X__LAYER_1, X_LM, NO_ALT, MOD_LSFT) \
+    X(ENTCMBO, X__LAYER_2, X_LT, KC_ENT, MOD_NONE) \
+    X(TABNAVI, X__LAYER_3, X_LT, KC_TAB, MOD_NONE) \
+    X(ALTSYMS, X__LAYER_3, X_LT, KC_TAB, MOD_NONE) \
+    X(KBDMGMT, X__LAYER_4, X_MO, NO_ALT, MOD_NONE)
+// X(LSFTSYM, X_SFTLYR_1, X_MO, NO_ALT, MOD_NONE)
+
+// #ifndef KBD_MAPPING
+// #    define KBD_MAPPING()
+// #endif
 
 #if 1
 enum { IB42_LAYER_TABLE(X_ID_ENUM) };
@@ -96,74 +103,76 @@ enum { ID_LAYER_BASE = 0, ID_LAYER_SYMBOLS, ID_LAYER_ENTCMBO, ID_LAYER_TABNAVI, 
 #endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // clang-format off
-//                            BASE,           SYMBOLS,       ENTCMBO,     TABNAVI,            KBDMGMT,
-#define KESC(X)             X(KC_GESC,        KC_GRV,        _,           LCS(KC_ESC),        RESET) 
-#define KLBRC(X)            X(KC_LBRC,        _,             _,           _,                  _)
-#define KRBRC(X)            X(KC_RBRC,        _,             _,           _,                  _)
-#define KBSLS(X)            X(KC_BSLS,        _,             _,           _,                  _)
-#define KDEL(X)             X(KC_DEL,         _,             _,           LSA(KC_F),          RGB_MOD) 
-#define KBSPC(X)            X(KC_BSPC,        _,             _,           KC_BSPC,            RGB_RMOD) 
-#define KTAB(X)             X(KC_TABNAVI,     KC_1,          _,           _,                  KC_F1) 
-#define KSCLN(X)            X(KC_SCLN,        KC_MINS,       _,           KC_NO,              KC_F11) 
-#define KQUOT(X)            X(KC_QUOT,        KC_EQL,        _,           KC_NO,              KC_F12) 
-#define KENT(X)             X(KC_ENTCMBO,     KC_EQL,        _,           LCS(KC_P),          KC_F12) 
-#define KLSFT(X)            X(KC_LSFT,        _,             KC_LCA,      KC_NO,              KC_CAPS) 
-#define KCOMM(X)            X(KC_COMM,        KC_RBRC,       _,           KC_PGUP,            KC_NO) 
-#define KDOT(X)             X(KC_DOT,         KC_BSLS,       _,           KC_END,             KC_NO) 
-#define KSLSH(X)            X(KC_SLSH,        _,             _,           KC_END,             KC_NO) 
-#define KUP(X)              X(KC_UP,          KC_PGUP,       KC_SLSH,     KC_NO,              KC_NO) 
-#define KMO15(X)            X(KC_KBDMGMT,     LCS(KC_P),     _,           KC_NO,              _) 
-#define KLCTL(X)            X(KC_LCTL,        _,             KC_HYPR,     OSM(MOD_MEH),       RGB_M_P) 
-#define KLGUI(X)            X(KC_LGUI,        _,             KC_SGUI,     _,                  RGB_M_B) 
-#define KLALT(X)            X(KC_LALT,        _,             KC_MEH,      _,                  RGB_M_R) 
-#define KSYM(X)             X(KC_SYMBOLS,     _,             KC_LCTL,     KC_LCTL,            RGB_HUI) 
-#define KSPC(X)             X(KC_SPC,         KC_SPC,        KC_LCS,      KC_LSFT,            RGB_HUD) 
-#define KSSYM(X)            X(KC_LSFTSYM,     _,             KC_LCAG,     KC_NO,              RGB_M_SW) 
-#define KSLSH2(X)           X(KC_SLSH,        KC_UP,         KC_SLSH,     KC_NO,              KC_NO) 
-#define KLEFT2(X)           X(KC_NO,          KC_LEFT,       KC_MEH,      KC_NO,              RGB_M_K) 
-#define KDOWN2(X)           X(KC_NO,          KC_DOWN,       KC_SGUI,     KC_NO,              RGB_M_X) 
-#define KRGHT2(X)           X(KC_NO,          KC_RGHT,       KC_HYPR,     KC_NO,              RGB_M_G)
-#define KLEFT(X)            X(KC_LEFT,        KC_HOME,       KC_MEH,      KC_NO,              RGB_M_K) 
-#define KDOWN(X)            X(KC_DOWN,        KC_PGDN,       KC_SGUI,     KC_NO,              RGB_M_X) 
-#define KRGHT(X)            X(KC_RGHT,        KC_END,        KC_HYPR,     KC_NO,              RGB_M_G)
-#define KQ(X)               X(KC_Q,           LCA(KC_Q),     _,           KC_F13,             KC_MUTE) 
-#define KW(X)               X(KC_W,           LCA(KC_W),     _,           KC_F14,             KC_VOLD) 
-#define KE(X)               X(KC_E,           LCA(KC_E),     _,           KC_F15,             KC_VOLU) 
-#define KR(X)               X(KC_R,           LCA(KC_R),     _,           KC_F16,             KC_BRID) 
-#define KT(X)               X(KC_T,           LCA(KC_T),     _,           KC_WH_U,            KC_BRIU) 
-#define KY(X)               X(KC_Y,           LCA(KC_Y),     _,           RALT(KC_J),         RGB_TOG) 
-#define KU(X)               X(KC_U,           LCA(KC_U),     _,           RALT(KC_K),         RGB_VAI) 
-#define KI(X)               X(KC_I,           LCA(KC_I),     _,           LCS(KC_TAB),        RGB_VAD) 
-#define KO(X)               X(KC_O,           LCA(KC_O),     _,           LCTL(KC_TAB),       RGB_SPI) 
-#define KP(X)               X(KC_P,           KC_INS,        _,           KC_PSCR,            RGB_SPD) 
-#define KA(X)               X(KC_A,           KC_2,          _,           KC_F17,             KC_F2) 
-#define KS(X)               X(KC_S,           KC_3,          _,           KC_F18,             KC_F3) 
-#define KD(X)               X(KC_D,           KC_4,          _,           KC_F19,             KC_F4) 
-#define KF(X)               X(KC_F,           KC_5,          _,           KC_F20,             KC_F5) 
-#define KG(X)               X(KC_G,           KC_6,          _,           KC_WH_D,            KC_F6) 
-#define KH(X)               X(KC_H,           KC_7,          _,           KC_LEFT,            KC_F7) 
-#define KJ(X)               X(KC_J,           KC_8,          _,           KC_DOWN,            KC_F8) 
-#define KK(X)               X(KC_K,           KC_9,          _,           KC_UP,              KC_F9) 
-#define KL(X)               X(KC_L,           KC_0,          _,           KC_RGHT,            KC_F10) 
-#define KZ(X)               X(KC_Z,           LCA(KC_Z),     _,           KC_F21,             KC_SLCK) 
-#define KX(X)               X(KC_X,           LCA(KC_X),     _,           KC_F22,             KC_NLCK) 
-#define KC(X)               X(KC_C,           MEH(KC_C),     _,           KC_F23,             KC_NO) 
-#define KV(X)               X(KC_V,           MEH(KC_V),     _,           KC_F24,             RGB_SAD) 
-#define KB(X)               X(KC_B,           KC_QUOT,       _,           KC_NO,              RGB_SAI) 
-#define KN(X)               X(KC_N,           KC_SLSH,       _,           KC_HOME,            KC_NO) 
-#define KM(X)               X(KC_M,           KC_LBRC,       _,           KC_PGDN,            KC_NO)
-#define K1(X)               X(KC_1,           KC_F1,         _,           _,                  KC_NO)
-#define K2(X)               X(KC_2,           KC_F2,         _,           _,                  KC_NO)
-#define K3(X)               X(KC_3,           KC_F3,         _,           _,                  KC_NO)
-#define K4(X)               X(KC_4,           KC_F4,         _,           _,                  KC_NO)
-#define K5(X)               X(KC_5,           KC_F5,         _,           _,                  KC_NO)
-#define K6(X)               X(KC_6,           KC_F6,         _,           _,                  KC_NO)
-#define K7(X)               X(KC_7,           KC_F7,         _,           _,                  KC_NO)
-#define K8(X)               X(KC_8,           KC_F8,         _,           _,                  KC_NO)
-#define K9(X)               X(KC_9,           KC_F9,         _,           _,                  KC_NO)
-#define K0(X)               X(KC_0,           KC_F10,        _,           _,                  KC_NO)
-#define KMINS(X)            X(KC_MINS,        KC_F11,        _,           _,                  KC_NO)
-#define KEQL(X)             X(KC_EQL,         KC_F12,        _,           _,                  KC_NO)
+//                            BASE,           SYMBOLS,       ENTCMBO,     TABNAVI,        ALTSYMS,      KBDMGMT
+#define KESC(X)             X(KC_GESC,        KC_GRV,        _,           LCS(KC_ESC),    KC_GRV,     RESET) 
+#define KQ(X)               X(KC_Q,           LCA(KC_Q),     _,           KC_F13,         KC_PERC,    KC_MUTE) 
+#define KW(X)               X(KC_W,           LCA(KC_W),     _,           KC_F14,         KC_CIRC,    KC_VOLD) 
+#define KE(X)               X(KC_E,           LCA(KC_E),     _,           KC_F15,         KC_SCLN,    KC_VOLU) 
+#define KR(X)               X(KC_R,           LCA(KC_R),     _,           KC_F16,         KC_LPRN,    KC_BRID) 
+#define KT(X)               X(KC_T,           LCA(KC_T),     _,           KC_WH_U,        KC_RPRN,    KC_BRIU) 
+#define KY(X)               X(KC_Y,           LCA(KC_Y),     _,           RALT(KC_J),     KC_7,       RGB_TOG) 
+#define KU(X)               X(KC_U,           LCA(KC_U),     _,           RALT(KC_K),     KC_8,       RGB_VAI) 
+#define KI(X)               X(KC_I,           LCA(KC_I),     _,           LCS(KC_TAB),    KC_9,       RGB_VAD) 
+#define KO(X)               X(KC_O,           LCA(KC_O),     _,           LCTL(KC_TAB),   KC_MINS,    RGB_SPI) 
+#define KP(X)               X(KC_P,           KC_INS,        _,           KC_PSCR,        KC_EQL,     RGB_SPD) 
+#define KDEL(X)             X(KC_DEL,         _,             _,           LSA(KC_F),      KC_DEL,     RGB_MOD) 
+#define KBSPC(X)            X(KC_BSPC,        _,             _,           KC_BSPC,        KC_BSPC,    RGB_RMOD) 
+#define KTAB(X)             X(KC_TABNAVI,     KC_1,          _,           _,              KC_LCTL,    KC_F1) 
+#define KA(X)               X(KC_A,           KC_2,          _,           KC_F17,         KC_AMPR,    KC_F2) 
+#define KS(X)               X(KC_S,           KC_3,          _,           KC_F18,         KC_ASTR,    KC_F3) 
+#define KD(X)               X(KC_D,           KC_4,          _,           KC_F19,         KC_DLR,     KC_F4) 
+#define KF(X)               X(KC_F,           KC_5,          _,           KC_F20,         KC_LBRC,    KC_F5) 
+#define KG(X)               X(KC_G,           KC_6,          _,           KC_WH_D,        KC_RBRC,    KC_F6) 
+#define KH(X)               X(KC_H,           KC_7,          _,           KC_LEFT,        KC_4,       KC_F7) 
+#define KJ(X)               X(KC_J,           KC_8,          _,           KC_DOWN,        KC_5,       KC_F8) 
+#define KK(X)               X(KC_K,           KC_9,          _,           KC_UP,          KC_6,       KC_F9) 
+#define KL(X)               X(KC_L,           KC_0,          _,           KC_RGHT,        KC_AMPR,    KC_F10) 
+#define KSCLN(X)            X(KC_SCLN,        KC_MINS,       _,           KC_NO,          KC_QUOT,    KC_F11) 
+#define KENT(X)             X(KC_ENTCMBO,     KC_EQL,        _,           LCS(KC_P),      KC_QUOT,    KC_F12) 
+#define KLSFT(X)            X(KC_LSFT,        _,             KC_LCA,      KC_NO,          KC_TRNS,    KC_CAPS) 
+#define KZ(X)               X(KC_Z,           LCA(KC_Z),     _,           KC_F21,         KC_HASH,    KC_SLCK) 
+#define KX(X)               X(KC_X,           LCA(KC_X),     _,           KC_F22,         KC_AT,      KC_NLCK) 
+#define KC(X)               X(KC_C,           MEH(KC_C),     _,           KC_F23,         KC_EXLM,    KC_NO) 
+#define KV(X)               X(KC_V,           MEH(KC_V),     _,           KC_F24,         KC_COMM,    RGB_SAD) 
+#define KB(X)               X(KC_B,           KC_QUOT,       _,           KC_NO,          KC_DOT,     RGB_SAI) 
+#define KN(X)               X(KC_N,           KC_SLSH,       _,           KC_HOME,        KC_1,       KC_NO) 
+#define KM(X)               X(KC_M,           KC_LBRC,       _,           KC_PGDN,        KC_2,       KC_NO)
+#define KCOMM(X)            X(KC_COMM,        KC_RBRC,       _,           KC_PGUP,        KC_3,       KC_NO) 
+#define KDOT(X)             X(KC_DOT,         KC_BSLS,       _,           KC_END,         KC_EQL,     KC_NO) 
+#define KUP(X)              X(KC_UP,          KC_PGUP,       KC_SLSH,     KC_NO,          KC_SLSH,    KC_NO) 
+#define KMO15(X)            X(KC_KBDMGMT,     LCS(KC_P),     _,           KC_NO,          KC_SLSH     ,          _) 
+#define KSLSH(X)            X(KC_SLSH,        _,             _,           KC_END,         _,          KC_NO) 
+#define KLCTL(X)            X(KC_LCTL,        _,             KC_HYPR,     OSM(MOD_MEH),   _,          RGB_M_P) 
+#define KLGUI(X)            X(KC_LGUI,        _,             KC_SGUI,     _,              _,          RGB_M_B) 
+#define KLALT(X)            X(KC_LALT,        _,             KC_MEH,      _,              _,          RGB_M_R) 
+#define KSYM(X)             X(KC_SYMBOLS,     _,             KC_LCTL,     KC_LCTL,        _,          RGB_HUI) 
+#define KSPC(X)             X(KC_SPC,         KC_SPC,        KC_LCS,      KC_LSFT,        _,          RGB_HUD) 
+#define KSSYM(X)            X(KC_LSFTSYM,     _,             KC_LCAG,     KC_NO,          KC_0,       RGB_M_SW) 
+#define KLEFT(X)            X(KC_LEFT,        KC_HOME,       KC_MEH,      KC_NO,          KC_UNDS,    RGB_M_K) 
+#define KDOWN(X)            X(KC_DOWN,        KC_PGDN,       KC_SGUI,     KC_NO,          KC_NO,      RGB_M_X) 
+#define KRGHT(X)            X(KC_RGHT,        KC_END,        KC_HYPR,     KC_NO,          KC_NO,      RGB_M_G)
+#define KVUP(X)             X(KC_UP,          KC_PGUP,       KC_SLSH,     KC_NO,          KC_0,       KC_NO) 
+#define KVLEF(X)            X(KC_LEFT,        KC_HOME,       KC_MEH,      KC_NO,          KC_UNDS,    RGB_M_K) 
+#define KVDOW(X)            X(KC_DOWN,        KC_PGDN,       KC_SGUI,     KC_NO,          KC_NO,      RGB_M_X) 
+#define KVRGH(X)            X(KC_RGHT,        KC_END,        KC_HYPR,     KC_NO,          KC_NO,      RGB_M_G)
+#define KLEFT2(X)           X(KC_NO,          KC_LEFT,       KC_MEH,      KC_NO,          _,          RGB_M_K) 
+#define KDOWN2(X)           X(KC_NO,          KC_DOWN,       KC_SGUI,     KC_NO,          _,          RGB_M_X) 
+#define KRGHT2(X)           X(KC_NO,          KC_RGHT,       KC_HYPR,     KC_NO,          _,          RGB_M_G)
+#define KLBRC(X)            X(KC_LBRC,        _,             _,           _,              _,          _)
+#define KRBRC(X)            X(KC_RBRC,        _,             _,           _,              _,          _)
+#define KQUOT(X)            X(KC_QUOT,        KC_EQL,        _,           KC_NO,          _,          KC_F12) 
+#define KBSLS(X)            X(KC_BSLS,        _,             _,           _,              _,          _)
+#define K1(X)               X(KC_1,           KC_F1,         _,           _,              _,          KC_NO)
+#define K2(X)               X(KC_2,           KC_F2,         _,           _,              _,          KC_NO)
+#define K3(X)               X(KC_3,           KC_F3,         _,           _,              _,          KC_NO)
+#define K4(X)               X(KC_4,           KC_F4,         _,           _,              _,          KC_NO)
+#define K5(X)               X(KC_5,           KC_F5,         _,           _,              _,          KC_NO)
+#define K6(X)               X(KC_6,           KC_F6,         _,           _,              _,          KC_NO)
+#define K7(X)               X(KC_7,           KC_F7,         _,           _,              _,          KC_NO)
+#define K8(X)               X(KC_8,           KC_F8,         _,           _,              _,          KC_NO)
+#define K9(X)               X(KC_9,           KC_F9,         _,           _,              _,          KC_NO)
+#define K0(X)               X(KC_0,           KC_F10,        _,           _,              _,          KC_NO)
+#define KMINS(X)            X(KC_MINS,        KC_F11,        _,           _,              _,          KC_NO)
+#define KEQL(X)             X(KC_EQL,         KC_F12,        _,           _,              _,          KC_NO)
 // clang-format on
