@@ -11,7 +11,7 @@
 #define NULL_LAYER LAYOUT(KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS)
 
 // clang-format off
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+const uint16_t PROGMEM keymaps2[][MATRIX_ROWS][MATRIX_COLS] = {
 	[0] = LAYOUT(KC_GESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_DEL, KC_BSPC, LT(3,KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, LT(2,KC_ENT), KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_UP, MO(15), KC_LCTL, KC_LGUI, KC_LALT, MO(1), KC_SPC, LM(1,MOD_LSFT), KC_LEFT, KC_DOWN, KC_RGHT),
 	[1] = LAYOUT(KC_GRV, LCA(KC_Q), LCA(KC_W), LCA(KC_E), LCA(KC_R), LCA(KC_T), LCA(KC_Y), LCA(KC_U), LCA(KC_I), LCA(KC_O), KC_INS, KC_TRNS, KC_TRNS, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_TRNS, LCA(KC_Z), LCA(KC_X), MEH(KC_C), MEH(KC_V), KC_QUOT, KC_SLSH, KC_LBRC, KC_RBRC, KC_BSLS, KC_PGUP, LCTL(LSFT(KC_P)), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_SPC, KC_TRNS, KC_HOME, KC_PGDN, KC_END),
 	[2] = LAYOUT( KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, LCA(KC_NO), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_SLSH, TG(15), HYPR(KC_NO), SGUI(KC_NO), MEH(KC_NO), KC_LCTL, C_S_T(OSM(MOD_LCTL|MOD_LSFT)), LCAG(KC_NO), MEH(KC_NO), SGUI(KC_NO), HYPR(KC_NO)),
@@ -22,53 +22,67 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // TODO: WIP
 #define KBD_MAPPING(X) \
-    KESC(X)                 \
-    KQ(X)                   \
-    KW(X)                   \
-    KE(X)                   \
-    KR(X)                   \
-    KT(X)                   \
-    KY(X)                   \
-    KU(X)                   \
-    KI(X)                   \
-    KO(X)                   \
-    KP(X)                   \
-    KDEL(X)                 \
-    KBSPC(X)                \
-    KTAB(X)                 \
-    KA(X)                   \
-    KS(X)                   \
-    KD(X)                   \
-    KF(X)                   \
-    KG(X)                   \
-    KH(X)                   \
-    KJ(X)                   \
-    KK(X)                   \
-    KL(X)                   \
-    KSCLN(X)                \
-    KENT(X)                 \
-    KLSFT(X)                \
-    KZ(X)                   \
-    KX(X)                   \
-    KC(X)                   \
-    KV(X)                   \
-    KB(X)                   \
-    KN(X)                   \
-    KM(X)                   \
-    KCOMM(X)                \
-    KDOT(X)                 \
-    KUP(X)                  \
-    KMO15(X)                \
-    KLCTL(X)                \
-    KLGUI(X)                \
-    KLALT(X)                \
-    KSYM(X)                 \
-    KSPC(X)                 \
-    KSSYM(X)                \
-    KLEFT(X)                \
-    KDOWN(X)                \
+    KESC(X)            \
+    KQ(X)              \
+    KW(X)              \
+    KE(X)              \
+    KR(X)              \
+    KT(X)              \
+    KY(X)              \
+    KU(X)              \
+    KI(X)              \
+    KO(X)              \
+    KP(X)              \
+    KDEL(X)            \
+    KBSPC(X)           \
+    KTAB(X)            \
+    KA(X)              \
+    KS(X)              \
+    KD(X)              \
+    KF(X)              \
+    KG(X)              \
+    KH(X)              \
+    KJ(X)              \
+    KK(X)              \
+    KL(X)              \
+    KSCLN(X)           \
+    KENT(X)            \
+    KLSFT(X)           \
+    KZ(X)              \
+    KX(X)              \
+    KC(X)              \
+    KV(X)              \
+    KB(X)              \
+    KN(X)              \
+    KM(X)              \
+    KCOMM(X)           \
+    KDOT(X)            \
+    KBD_MAPPING_3(X)
+
+#define KBD_MAPPING_3(X) \
+    KSLSH(X)             \
+    KMO15(X)             \
+    KLCTL(X)             \
+    KLGUI(X)             \
+    KLALT(X)             \
+    KSYM(X)              \
+    KSPC(X)              \
+    KVLEF(X)             \
+    KVDOW(X)             \
+    KVUP(X)              \
+    KVRGH(X)
+
+#define KBD_MAPPING_2(X) \
+    KUP(X)               \
+    KMO15(X)             \
+    KLCTL(X)             \
+    KLGUI(X)             \
+    KLALT(X)             \
+    KSYM(X)              \
+    KSPC(X)              \
+    KSSYM(X)             \
+    KLEFT(X)             \
+    KDOWN(X)             \
     KRGHT(X)
 
-const uint16_t PROGMEM keymaps2[][MATRIX_ROWS][MATRIX_COLS] = {
-IB42_LAYER_TABLE(X_KEYMAP_ARRAY)
-};
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {IB42_LAYER_TABLE(X_KEYMAP_ARRAY)};

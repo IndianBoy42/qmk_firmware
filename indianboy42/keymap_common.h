@@ -71,8 +71,8 @@ enum custom_keycodes {
     X(LSFTSYM, X__LAYER_1, X_LM, NO_ALT, MOD_LSFT) \
     X(ENTCMBO, X__LAYER_2, X_LT, KC_ENT, MOD_NONE) \
     X(TABNAVI, X__LAYER_3, X_LT, KC_TAB, MOD_NONE) \
-    X(ALTSYMS, X__LAYER_3, X_LT, KC_TAB, MOD_NONE) \
-    X(KBDMGMT, X__LAYER_4, X_MO, NO_ALT, MOD_NONE)
+    X(ALTSYMS, X__LAYER_4, X_MO, NO_ALT, MOD_NONE) \
+    X(KBDMGMT, X__LAYER_5, X_MO, NO_ALT, MOD_NONE)
 // X(LSFTSYM, X_SFTLYR_1, X_MO, NO_ALT, MOD_NONE)
 
 // #ifndef KBD_MAPPING
@@ -141,8 +141,8 @@ enum { ID_LAYER_BASE = 0, ID_LAYER_SYMBOLS, ID_LAYER_ENTCMBO, ID_LAYER_TABNAVI, 
 #define KCOMM(X)            X(KC_COMM,        KC_RBRC,       _,           KC_PGUP,        KC_3,       KC_NO) 
 #define KDOT(X)             X(KC_DOT,         KC_BSLS,       _,           KC_END,         KC_EQL,     KC_NO) 
 #define KUP(X)              X(KC_UP,          KC_PGUP,       KC_SLSH,     KC_NO,          KC_SLSH,    KC_NO) 
-#define KMO15(X)            X(KC_KBDMGMT,     LCS(KC_P),     _,           KC_NO,          KC_SLSH     ,          _) 
-#define KSLSH(X)            X(KC_SLSH,        _,             _,           KC_END,         _,          KC_NO) 
+#define KMO15(X)            X(KC_KBDMGMT,     LCS(KC_P),     _,           KC_NO,          KC_SLSH,    _) 
+#define KSLSH(X)            X(KC_SLSH,        _,             _,           KC_NO,          _,          KC_NO) 
 #define KLCTL(X)            X(KC_LCTL,        _,             KC_HYPR,     OSM(MOD_MEH),   _,          RGB_M_P) 
 #define KLGUI(X)            X(KC_LGUI,        _,             KC_SGUI,     _,              _,          RGB_M_B) 
 #define KLALT(X)            X(KC_LALT,        _,             KC_MEH,      _,              _,          RGB_M_R) 
@@ -152,9 +152,9 @@ enum { ID_LAYER_BASE = 0, ID_LAYER_SYMBOLS, ID_LAYER_ENTCMBO, ID_LAYER_TABNAVI, 
 #define KLEFT(X)            X(KC_LEFT,        KC_HOME,       KC_MEH,      KC_NO,          KC_UNDS,    RGB_M_K) 
 #define KDOWN(X)            X(KC_DOWN,        KC_PGDN,       KC_SGUI,     KC_NO,          KC_NO,      RGB_M_X) 
 #define KRGHT(X)            X(KC_RGHT,        KC_END,        KC_HYPR,     KC_NO,          KC_NO,      RGB_M_G)
-#define KVUP(X)             X(KC_UP,          KC_PGUP,       KC_SLSH,     KC_NO,          KC_0,       KC_NO) 
-#define KVLEF(X)            X(KC_LEFT,        KC_HOME,       KC_MEH,      KC_NO,          KC_UNDS,    RGB_M_K) 
-#define KVDOW(X)            X(KC_DOWN,        KC_PGDN,       KC_SGUI,     KC_NO,          KC_NO,      RGB_M_X) 
+#define KVLEF(X)            X(KC_LEFT,        KC_HOME,       KC_LCAG,     KC_NO,          KC_UNDS,    RGB_M_K) 
+#define KVDOW(X)            X(KC_DOWN,        KC_PGDN,       KC_MEH,      KC_NO,          KC_NO,      RGB_M_X) 
+#define KVUP(X)             X(KC_UP,          KC_PGUP,       KC_SGUI,     KC_NO,          KC_0,       KC_NO) 
 #define KVRGH(X)            X(KC_RGHT,        KC_END,        KC_HYPR,     KC_NO,          KC_NO,      RGB_M_G)
 #define KLEFT2(X)           X(KC_NO,          KC_LEFT,       KC_MEH,      KC_NO,          _,          RGB_M_K) 
 #define KDOWN2(X)           X(KC_NO,          KC_DOWN,       KC_SGUI,     KC_NO,          _,          RGB_M_X) 
