@@ -177,4 +177,13 @@ enum { ID_LAYER_BASE = 0, ID_LAYER_SYMBOLS, ID_LAYER_ENTCMBO, ID_LAYER_TABNAVI, 
 #define K0(X)               X(KC_0,           KC_F10,        _,           _,              _,          KC_NO)
 #define KMINS(X)            X(KC_MINS,        KC_F11,        _,           _,              _,          KC_NO)
 #define KEQL(X)             X(KC_EQL,         KC_F12,        _,           _,              _,          KC_NO)
+
+#define KmA(X)              X(MT(MOD_LGUI, KC_A),           KC_2,          _,           KC_F17,         KC_AMPR,    KC_F2) 
+#define KaS(X)              X(MT(MOD_LALT, KC_S),           KC_3,          _,           KC_F18,         KC_ASTR,    KC_F3) 
+#define KcD(X)              X(MT(MOD_LCTl, KC_D),           KC_4,          _,           KC_F19,         KC_DLR,     KC_F4) 
+#define KsF(X)              X(MT(MOD_LSFT, KC_F),           KC_5,          _,           KC_F20,         KC_LBRC,    KC_F5) 
+#define KsH(X)              X(MT(MOD_LSFT, KC_H),           KC_7,          _,           KC_LEFT,        KC_4,       KC_F7) 
+#define KcJ(X)              X(MT(MOD_LCTl, KC_J),           KC_8,          _,           KC_DOWN,        KC_5,       KC_F8) 
+#define KaK(X)              X(MT(MOD_LALT, KC_K),           KC_9,          _,           KC_UP,          KC_6,       KC_F9) 
+#define KmL(X)              X(MT(MOD_LGUI, KC_L),           KC_0,          _,           KC_RGHT,        KC_AMPR,    KC_F10) 
 // clang-format on
