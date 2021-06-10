@@ -19,21 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "crkbd.h"
-#if defined(KEYBOARD_crkbd_rev1_legacy)
-#    include "legacy.h"
-#elif defined(KEYBOARD_crkbd_rev1_common)
-#    include "common.h"
-#endif
-
 #include "quantum.h"
-#include "split_util.h"
-#ifdef PROTOCOL_LUFA
-#    include "lufa.h"
-#endif
-#ifdef SSD1306OLED
-#    include "ssd1306.h"
-#endif
-
 
 // clang-format off
 #define LAYOUT_split_3x6_3( \

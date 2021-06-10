@@ -78,5 +78,3 @@ LAYOUT_ortho_4x12( \
 
 
 #define LAYOUT LAYOUT_planck_mit
-#define LAYOUT_kc_ortho_4x12 LAYOUT_kc
-#define KC_LAYOUT_ortho_4x12 LAYOUT_kc
