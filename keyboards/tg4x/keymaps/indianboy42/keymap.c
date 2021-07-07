@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps2[][MATRIX_ROWS][MATRIX_COLS] = {
     KM(X)              \
     KCOMM(X)           \
     KDOT(X)            \
-    KBD_MAPPING_3(X)
+    KBD_MAPPING_2(X)
 
 #define KBD_MAPPING_3(X) \
     KSLSH(X)             \
