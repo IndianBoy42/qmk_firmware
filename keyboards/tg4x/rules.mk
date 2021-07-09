@@ -11,6 +11,8 @@ MCU = atmega32u4
 #   ATmega328P   USBasp
 BOOTLOADER = atmel-dfu
 
+SRC += keymappp.cpp
+
 # Build Options
 #   change yes to no to disable
 #
