@@ -1,0 +1,5 @@
+ln -s ~/qmk_firmware/keyboards/bm43a .
+ln -s ~/qmk_firmware/keyboards/crkbd .
+ln -s ~/qmk_firmware/keyboards/dz60 .
+ln -s ~/qmk_firmware/keyboards/jj40 .
+ln -s ~/qmk_firmware/keyboards/tg4x .
