@@ -12,6 +12,13 @@ let
   # files if the requirements*.txt files change
   pythonEnv = poetry2nix.mkPoetryEnv {
     projectDir = ./nix;
+    overrides = poetry2nix.overrides.withDefaults (self: super: {
+      qmk = super.qmk.overridePythonAttrs(old: {
+        # Allow QMK CLI to run "bin/qmk" as a subprocess (the wrapper changes
+        # $PATH and breaks these invocations).
+        dontWrapPythonPrograms = true;
+      });
+    });
   };
 in
 
@@ -38,6 +45,7 @@ mkShell {
       pkgsCross.avr.buildPackages.gcc8
       avrlibc
       avrdude
+      which
     ]
     ++ lib.optional arm [ gcc-arm-embedded ]
     ++ lib.optional teensy [ teensy-loader-cli ];
