@@ -76,7 +76,7 @@ enum custom_keycodes {
     X(LSFTSYM, X__LAYER_1, X_LM, NO_ALT, MOD_LSFT) \
     X(ENTCMBO, X__LAYER_2, X_LT, KC_ENT, MOD_NONE) \
     X(TABNAVI, X__LAYER_3, X_LT, KC_TAB, MOD_NONE) \
-    X(ALTSYMS, X__LAYER_4, X_OS, NO_ALT, MOD_NONE) \
+    X(ALTSYMS, X__LAYER_4, X_MO, NO_ALT, MOD_NONE) \
     X(ALTNUMS, X__LAYER_5, X_TT, NO_ALT, MOD_NONE) \
     X(ALTSYM2, X__LAYER_6, X_MO, NO_ALT, MOD_NONE) \
     X(KBDMGMT, X__LAYER_7, X_MO, NO_ALT, MOD_NONE)
@@ -96,11 +96,11 @@ enum { IB42_LAYER_TABLE(X_KC_ENUM) };
 #define KESC(X)             X(KC_GESC,        KC_GRV,        _,           LCS(KC_ESC),    KC_GRV,     _,       KC_GRV,     RESET)
 #define KQ(X)               X(KC_Q,           LCA(KC_Q),     _,           KC_F13,         KC_ALTNUMS, _,       KC_1,       KC_MUTE)
 #define KW(X)               X(KC_W,           LCA(KC_W),     _,           KC_F14,         KC_LCBR,    KC_PERC, KC_2,       KC_VOLD)
-#define KE(X)               X(KC_E,           LCA(KC_E),     _,           KC_F15,         KC_CIRC,    KC_PLUS, KC_3,       KC_VOLU)
+#define KE(X)               X(KC_E,           LCA(KC_E),     _,           KC_F15,         KC_EXLM,    KC_PLUS, KC_3,       KC_VOLU)
 #define KR(X)               X(KC_R,           LCA(KC_R),     _,           KC_F16,         KC_AT,      KC_PMNS, KC_4,       KC_BRID)
 #define KT(X)               X(KC_T,           LCA(KC_T),     _,           KC_WH_U,        KC_RCBR,    KC_NO,   KC_5,       KC_BRIU)
 #define KY(X)               X(KC_Y,           LCA(KC_Y),     _,           RALT(KC_J),     KC_DQUO,    KC_1,    KC_6,       RGB_TOG)
-#define KU(X)               X(KC_U,           LCA(KC_U),     _,           RALT(KC_K),     KC_EXLM,    KC_2,    KC_7,       RGB_VAI)
+#define KU(X)               X(KC_U,           LCA(KC_U),     _,           RALT(KC_K),     KC_CIRC,    KC_2,    KC_7,       RGB_VAI)
 #define KI(X)               X(KC_I,           LCA(KC_I),     _,           LCS(KC_TAB),    KC_QUES,    KC_3,    KC_8,       RGB_VAD)
 #define KO(X)               X(KC_O,           LCA(KC_O),     _,           LCTL(KC_TAB),   KC_PERC,    KC_NO,   KC_9,       RGB_SPI)
 #define KP(X)               X(KC_P,           KC_INS,        _,           KC_PSCR,        KC_NO,      KC_NO,   KC_0,       RGB_SPD)
