@@ -61,8 +61,8 @@
     KLGUI(X)            \
     KLALT(X)            \
     KSYM(X)             \
-    KSPC(X)             \
     KSSYM(X)            \
+    KSPC(X)             \
     KLEFT(X)            \
     KDOWN(X)            \
     KRGHT(X)
