@@ -61,22 +61,10 @@
     KLGUI(X)            \
     KLALT(X)            \
     KSYM(X)             \
-    KSSYM(X)            \
+    KMUSIC(X)           \
     KSPC(X)             \
     KLEFT(X)            \
     KDOWN(X)            \
     KRGHT(X)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {IB42_LAYER_TABLE(X_KEYMAP_ARRAY)};
-
-// Rotary Encoder Functions
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) { /* First encoder */
-        if (clockwise) {
-            tap_code(KC_WH_D);
-        } else {
-            tap_code(KC_WH_U);
-        }
-    }
-    return true;
-}
