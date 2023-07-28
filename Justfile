@@ -1,7 +1,7 @@
 set shell := ["fish", "-c"]
 set positional-arguments
 
-kb := "tg4x"
+kb := "splitkb/kyria/rev3"
 km := "indianboy42"
 
 qmk := "qmk"
@@ -12,7 +12,7 @@ export LDFLAGS := ""
 
 # First/Default command:
 # Compile a keyboard
-flash: compile
+flash:
     {{qmk}} flash -kb {{kb}} -km {{km}}
 
 
@@ -41,3 +41,6 @@ upstream:
     git branch master-$HASH $HASH
     git checkout master
     git rebase upstream/master
+
+compile_commands:
+    qmk generate-compilation-database -kb {{kb}} -km {{km}}
