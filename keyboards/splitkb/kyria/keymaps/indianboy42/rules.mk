@@ -7,5 +7,6 @@ CONVERT_TO=promicro_rp2040
 CAPS_WORD_ENABLE = yes
 FORCE_NKRO = yes
 COMBO_ENABLE = yes
+# KEY_OVERRIDE_ENABLE = yes
 
 SRC += features/custom_shift_keys.c

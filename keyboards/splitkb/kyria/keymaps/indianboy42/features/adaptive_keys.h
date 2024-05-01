@@ -57,6 +57,9 @@ bool            process_adaptive_key(uint16_t keycode, const keyrecord_t *record
                 set_mods(prior_saved_mods);
                 tap_code(first);
                 clear_mods();
+                if (is_caps_word_on() && !caps_word_press_user(second)) {
+                    add_weak_mods(MOD_BIT(KC_LSFT));
+                }
                 tap_code(second);
             }
         }
