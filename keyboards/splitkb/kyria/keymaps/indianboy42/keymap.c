@@ -25,7 +25,7 @@ enum layers {
     _NAV,
     _NUM,
     _SYM,
-    _HANDSYM,
+    _HOLY,
     _FUNCTION,
 };
 
@@ -51,7 +51,7 @@ enum layers {
 #define KC_HYPR HYPR(KC_NO)
 #define SMO(X) LM(X, MOD_LSFT)
 
-enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH, KC_SH, KC_WH, KC_GH, KC_PH, KC_RPRN_MACRO, KC_LFT_TH, KC_RGT_TH, KC_LRPRN, KC_LRCBR, KC_LRBRC };
+enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH, KC_SH, KC_WH, KC_GH, KC_PH, KC_RPRN_MACRO, KC_LFT_TH, KC_RGT_TH, KC_LRPRN, KC_LRCBR, KC_LRBRC, KC_LRTRI };
 
 // Aliases for readability
 #define QWERTY DF(_QWERTY)
@@ -59,7 +59,7 @@ enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH,
 #define MINCRFT TO(_MINECRAFT)
 
 #define SYM MO(_SYM)
-#define HSYM MO(_HANDSYM)
+#define HOLY MO(_HOLY)
 #define NUM MO(_NUM)
 #define NAV MO(_NAV)
 #define FKEYS MO(_FUNCTION)
@@ -93,8 +93,8 @@ enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH,
 #define CTL_TAB MT(MOD_LCTL, KC_TAB)
 #define SYM_ENT LT(_SYM, KC_ENT)
 #define SYM_TAB LT(_SYM, KC_TAB)
-#define HSY_TAB LT(_HANDSYM, KC_TAB)
-#define KR_CSYM LT(_HANDSYM, KC_R)
+#define HLY_TAB LT(_HOLY, KC_TAB)
+#define KR_CSYM LT(_HOLY, KC_R)
 #define NUM_DEL LT(_NUM, KC_DEL)
 #define NUM_ENT LT(_NUM, KC_ENT)
 #define NUM_TAB LT(_NUM, KC_TAB)
@@ -107,10 +107,10 @@ enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH,
 #define NAV_ESC LT(_NAV, KC_ESC)
 #define NAV_DEL LT(_NAV, KC_DEL)
 #define NAV_BSP LT(_NAV, KC_BSPC)
-#define HSYM_R LT(_HANDSYM, KC_R)
-#define HSYM_SP LT(_HANDSYM, KC_SPC)
-#define CSA_ESC MT(MOD_LCTL | MOD_LSFT | MOD_LALT, KC_Z)
-#define CSA_BSP MT(MOD_LCTL | MOD_LSFT | MOD_LALT, KC_BSPC)
+#define HOLY_R LT(_HOLY, KC_R)
+#define HOLY_SP LT(_HOLY, KC_SPC)
+#define CSA_ESC MT(MOD_LCTL | MOD_LSFT | MOD_LALT, KC_ESC)
+#define CSA_DEL MT(MOD_LCTL | MOD_LSFT | MOD_LALT, KC_DEL)
 #define KC_COPY LCTL(KC_C)
 #define KC_CUT LCTL(KC_X)
 #define KC_PSTE LCTL(KC_V)
@@ -126,9 +126,10 @@ const custom_shift_key_t custom_shift_keys[] = {
     {KC_LPRN, KC_RPRN}, //
     {KC_LBRC, KC_RBRC}, //
     {KC_LCBR, KC_RCBR}, //
-    {KC_UNDS, KC_EXLM}, //
+    {KC_UNDS, KC_TILD}, //
     {KC_DLR, KC_CIRC},  //
     {KC_AMPR, KC_BSLS}, //
+    {KC_ASTR, KC_HASH}, //
     {KC_QU, KC_Qu},     //
 };
 uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_key_t);
@@ -136,56 +137,49 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_
 // TODO: try and use alternate hands home-row mod-tap
 // Ctrl - Alt - Shift - Symbols
 
-#define COMBOS_TABLE(X)             \
-    X(1, KC_COMM, KC_DOT, KC_SCLN)  \
-    X(2, KC_DOT, KC_QUOT, KC_COLN)  \
-    X(3, KC_COMM, KC_QUOT, KC_DQUO) \
-    X(4, KC_COMM, KC_MINS, KC_TILD) \
-    X(5, KC_DOT, KC_MINS, KC_UNDS)  \
-    X(6, KC_QUOT, KC_MINS, KC_CIRC) \
-    X(7, KC_EQL, KC_COMM, KC_ASTR)  \
-    X(8, KC_EQL, KC_MINS, KC_PPLS)  \
-    X(9, KC_SLSH, KC_U, KC_GRV)     \
-    X(10, KC_SLSH, KC_O, KC_PERC)   \
-    X(11, KC_SLSH, KC_Y, KC_PIPE)   \
-    X(12, KC_SLSH, KC_K, KC_BSLS)   \
-    X(13, KC_A, KC_E, KC_QUES)      \
-    X(14, KC_A, KC_I, KC_AMPR)      \
-    X(15, KC_E, KC_I, KC_EXLM)      \
-    X(16, KC_A, KC_H, KC_DLR)       \
-    X(17, KC_E, KC_H, KC_HASH)      \
-    X(18, KC_I, KC_H, KC_PERC)      \
-    X(19, KC_LPRN, KC_E, KC_AT)     \
-    X(20, KC_LPRN, KC_I, KC_LT)     \
-    X(21, KC_LPRN, KC_H, KC_GT)     \
+#define COMBOS_TABLE(X) \
+    COMBOS_HANDDOWN(X)  \
+    COMBOS_QWERTY(X)
+// TODO: just redo this all with one column apart
+#define COMBOS_HANDDOWN(X)           \
+    X(1, KC_EQL, KC_COMM, KC_BSLS)   \
+    X(2, KC_COMM, KC_DOT, KC_BSLS)   \
+    X(3, KC_DOT, KC_QUOT, KC_BSLS)   \
+    X(4, KC_QUOT, KC_UNDS, KC_BSLS)   \
+    X(5, KC_SCLN, KC_A, KC_BSLS)   \
+    X(6, KC_A, KC_E, KC_BSLS)   \
+    X(7, KC_E, KC_I, KC_BSLS)   \
+    X(8, KC_I, KC_H, KC_BSLS)   \
+    X(9, KC_SLSH, KC_U, KC_BSLS)   \
+    X(10, KC_LPRN, KC_R, KC_LRPRN)   \
+    X(11, KC_LCBR, KC_X, KC_LRCBR)   \
+    X(12, KC_U, KC_O, KC_Q)          \
+    X(13, KC_O, KC_Y, KC_QU)         \
+    X(14, KC_Y, KC_K, KC_Z)          \
+    X(15, KC_T, KC_N, KC_TH)         \
+    X(16, KC_S, KC_N, KC_SH)         \
+    X(17, KC_S, KC_T, KC_CH)         \
+    X(18, KC_C, KC_L, KC_CH)         \
+    X(19, KC_F, KC_P, KC_WH)         \
+    X(20, KC_G, KC_D, KC_GH)         \
+    X(21, KC_P, KC_M, KC_PH)
+// TODO: clean this up
+#define COMBOS_QWERTY(X)            \
     X(22, KC_LPRN, KC_A, KC_LRPRN)  \
-    X(23, KC_LPRN, KC_J, KC_RPRN)   \
-    X(24, KC_LCBR, KC_T, KC_LRCBR)  \
-    X(25, KC_LBRC, KC_D, KC_LRBRC)  \
-    X(26, KC_LCBR, KC_N, KC_RCBR)   \
-    X(27, KC_LBRC, KC_L, KC_RBRC)   \
-    X(28, KC_SPC, KC_LPRN, KC_LCBR) \
-    X(29, KC_K, KC_O, KC_Q)         \
-    X(30, KC_K, KC_U, KC_QU)        \
-    X(31, KC_K, KC_Y, KC_Z)         \
-    X(32, KC_T, KC_N, KC_TH)        \
-    X(33, KC_S, KC_N, KC_SH)        \
-    X(34, KC_S, KC_T, KC_CH)        \
-    X(35, KC_C, KC_L, KC_CH)        \
-    X(36, KC_F, KC_P, KC_WH)        \
-    X(37, KC_G, KC_D, KC_GH)        \
-    X(38, KC_P, KC_M, KC_PH)        \
-    /* For QWERTY*/                 \
-    X(39, KC_LPRN, KC_F, KC_LRPRN)  \
-    X(40, KC_LCBR, KC_V, KC_LRCBR)  \
-    X(41, KC_LPRN, KC_D, KC_RPRN)   \
-    X(42, KC_LCBR, KC_C, KC_RCBR)   \
-    X(43, KC_M, KC_COMM, KC_LT)     \
-    X(44, KC_M, KC_DOT, KC_GT)      \
-    X(45, KC_M, KC_QUOT, KC_DQUO)   \
-    X(46, KC_J, KC_SCLN, KC_UNDS)   \
-    X(47, KC_K, KC_SCLN, KC_EQL)    \
-    X(48, KC_L, KC_SCLN, KC_BSLS)
+    X(23, KC_LCBR, KC_Z, KC_LRCBR)  \
+    X(24, KC_LPRN, KC_D, KC_RPRN)   \
+    X(25, KC_LCBR, KC_C, KC_RCBR)   \
+    X(26, KC_M, KC_COMM, KC_LT)     \
+    X(27, KC_M, KC_DOT, KC_GT)      \
+    X(28, KC_A, KC_S, KC_SLSH)      \
+    X(29, KC_S, KC_D, KC_ASTR)      \
+    X(30, KC_D, KC_F, KC_DLR)       \
+    X(31, KC_J, KC_K, KC_CIRC)      \
+    X(32, KC_K, KC_L, KC_EQL)       \
+    X(33, KC_L, KC_SCLN, KC_BSLS)   \
+    X(34, KC_COMM, KC_DOT, KC_UNDS) \
+    X(35, KC_I, KC_O, KC_MINS)      \
+    X(36, KC_DOT, KC_QUOT, KC_GRV)
 
 #define ADAPTIVE_KEYS_DEF() \
     AK_SND_ONLY_START(KC_G) \
@@ -215,17 +209,15 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_
 /* https://www.reddit.com/r/KeyboardLayouts/comments/smnv1o/adaptive_keys_qmk_implementation/ */
 #include "features/adaptive_keys.h"
 
-// Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
-// The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
-// produces the key `tap` when tapped (i.e. pressed and released).
 // TODO: generate hint strings for the oled automatically
+// TODO: holy shit my modifiers are so jank
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
      KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
      KC_LPRN, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_DEL,
      KC_LCBR, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    NUM_BSP, _______, _______, CTL_ESC, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT, FKEYS,
-                                KC_LGUI, NAV_TAB, KC_LSFT, SYM,     KC_LCTL, KC_LALT, KC_SPC,  SFT_TAB, KC_CSA,  GUI_ENT
+                                KC_LGUI, NAV_TAB, KC_LSFT, SYM,     KC_LCTL, KC_LALT, KC_SPC,  SFT_TAB, KC_CSA,  KC_ENT
     ),
 
     [_SYM] = LAYOUT(
@@ -245,36 +237,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_NAV] = LAYOUT(
      KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                                       CC_LEFT, CC_DOWN, CC_UP,   CC_RGHT, _______, _______,
      FKEYS,   KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_CSA,                                      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,  KC_PSCR,
-     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______,
+     KC_F7,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_F12,  _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______,
                                 _______, _______, _______, _______, _______, KC_CUT,  KC_COPY, KC_PSTE, KC_UNDO, _______
     ),
 
     // TODO: https://sites.google.com/alanreiser.com/handsdown/home/hands-down-neu#h.ze4kq734zl5w
     [_HANDDOWNN] = LAYOUT(
-     NUM_ESC, KC_W,    KC_G,    KC_M,    KC_P,    KC_V,                                        KC_EQL,  KC_COMM, KC_DOT,  KC_QUOT, KC_MINS, KC_BSPC,
-     KC_LCBR, KC_R,    KC_S,    KC_N,    KC_T,    KC_B,                                        KC_LPRN, KC_A,    KC_E,    KC_I,    KC_H,    KC_J,
-     KC_LBRC, KC_X,    KC_C,    KC_L,    KC_D,    KC_F,    ALT_BSP, _______, _______, CTL_ESC, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_K,    FKEYS,
-                                KC_LGUI, NAV_TAB, KC_LSFT, HSYM,    KC_LCTL, KC_LALT, KC_SPC,  SFT_TAB, CSA_BSP, GUI_ENT
+     NUM_ESC, KC_W,    KC_G,    KC_M,    KC_P,    KC_V,                                        KC_EQL,  KC_COMM, KC_DOT,  KC_QUOT, KC_UNDS, KC_BSPC,
+     KC_LPRN, KC_R,    KC_S,    KC_N,    KC_T,    KC_B,                                        KC_SCLN, KC_A,    KC_E,    KC_I,    KC_H,    KC_J,
+     KC_LCBR, KC_X,    KC_C,    KC_L,    KC_D,    KC_F,    ALT_BSP, _______, _______, CTL_ESC, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_K,    FKEYS,
+                                KC_LGUI, NAV_TAB, KC_LSFT, HOLY,    KC_LCTL, KC_LALT, KC_SPC,  SFT_TAB, CSA_DEL, KC_ENT
     ),
     [_HANDDOWNT] = LAYOUT(
-     NUM_ESC, KC_X,    KC_P,    KC_H,    KC_G,    KC_K,                                        KC_EQL,  KC_COMM, KC_DOT,  KC_QUOT, KC_MINS, KC_BSPC,
-     KC_LCBR, KC_C,    KC_S,    KC_N,    KC_T,    KC_J,                                        KC_LPRN, KC_A,    KC_E,    KC_I,    KC_M,    KC_DEL,
-     KC_LBRC, KC_B,    KC_F,    KC_L,    KC_D,    KC_V,    ALT_BSP, _______, _______, CTL_ESC, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_W,    FKEYS,
-                                KC_LGUI, NAV_TAB, KC_LSFT, HSYM_R,  KC_LCTL, KC_LALT, KC_SPC,  SFT_TAB, CSA_BSP, GUI_ENT
+     NUM_ESC, KC_X,    KC_P,    KC_H,    KC_G,    KC_K,                                        KC_EQL,  KC_COMM, KC_DOT,  KC_QUOT, KC_UNDS, KC_BSPC,
+     KC_LPRN, KC_C,    KC_S,    KC_N,    KC_T,    KC_J,                                        KC_SCLN, KC_A,    KC_E,    KC_I,    KC_M,    KC_DEL,
+     KC_LCBR, KC_B,    KC_F,    KC_L,    KC_D,    KC_V,    ALT_BSP, _______, _______, CTL_ESC, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_W,    FKEYS,
+                                KC_LGUI, NAV_TAB, KC_LSFT, HOLY_R,  KC_LCTL, KC_LALT, KC_SPC,  SFT_TAB, CSA_DEL, KC_ENT
     ),
 
-    [_HANDSYM] = LAYOUT(
-     KC_LCS,  KC_GRV,  KC_TILD, KC_BSLS, KC_EXLM, KC_PIPE,                                     KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_DEL,
+    [_HOLY] = LAYOUT(
+     KC_LCS,  KC_GRV,  KC_TILD, KC_PPLS, KC_BSLS, KC_PIPE,                                     KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_DEL,
      KC_PERC, KC_CIRC, KC_AMPR, KC_DLR,  KC_LCBR, KC_RCBR,                                     KC_GT,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_LT,
-     KC_LGUI, KC_AT,   KC_HASH, KC_UNDS, KC_LBRC, KC_RBRC, KC_LSFT, _______, _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_LCA,
+     KC_LGUI, KC_AT,   KC_HASH, KC_MINS, KC_LBRC, KC_RBRC, KC_LSFT, _______, _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_LCA,
                                 _______, _______, _______, _______, _______, _______, KC_LSFT, KC_SPC,  KC_UNDO, _______
     ),
 
     [_MINECRAFT] = LAYOUT(
-     KC_2,    KC_3,    KC_4,    KC_E,    KC_5,    KC_6,                                        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  _______,
-     KC_1,    KC_LSFT, KC_S,    KC_D,    KC_F,    KC_7,                                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10, ______,
-     KC_Q,    KC_LCTL, KC_X,    KC_C,    KC_9,    KC_8,    ___,     _______, _______, ______,  KC_F11,  KC_F12,  KC_F13,  KC_F14,  KC_F15, FKEYS,
-                                _______, KC_LCTL, KC_LSFT, KC_SPC,  KC_ESC,  _______, ______,  KC_F18,  KC_F19,  KC_F20
+     KC_2,    KC_3,    KC_4,    KC_E,    KC_5,    KC_6,                                        _,       _,       _,       _,       _,       _______,
+     KC_1,    KC_LSFT, KC_S,    KC_D,    KC_F,    KC_7,                                        _,       _,       _,       _,       _,       MINCRFT,
+     KC_0,    KC_LCTL, KC_X,    KC_C,    KC_9,    KC_8,    KC_T,    _______, _______, ______,  _,       _,       _,       _,       _,       FKEYS,
+                                _______, KC_LCTL, KC_LSFT, KC_SPC,  KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5
     ),
 
     [_FUNCTION] = LAYOUT(
@@ -450,13 +442,22 @@ combo_t key_combos[COMBO_COUNT] = {COMBOS_TABLE(X_COMBO)};
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     /* Disable combo `SOME_COMBO` on layer `_LAYER_A` */
     switch (combo_index) {
-        case X_NAME(1):
-            if (!layer_state_is(_QWERTY)) {
-                return false;
-            }
-            break;
-    }
+#define ONLY_IN_QWERTY(N, ...)          \
+    case X_NAME(N):                     \
+        if (!layer_state_is(_QWERTY)) { \
+            return false;               \
+        };                              \
+        break;
+#define ONLY_IN_HANDDOWN(N, ...)           \
+    case X_NAME(N):                        \
+        if (!layer_state_is(_HANDDOWNN)) { \
+            return false;                  \
+        };                                 \
+        break;
 
+        COMBOS_QWERTY(ONLY_IN_QWERTY)
+        COMBOS_HANDDOWN(ONLY_IN_HANDDOWN)
+    }
     return true;
 }
 
@@ -481,6 +482,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         KC_MACRO(KC_LRPRN, "()")
         KC_MACRO(KC_LRCBR, "{}")
         KC_MACRO(KC_LRBRC, "[]")
+        KC_MACRO(KC_LRTRI, "<>")
 
             // TODO: the upper thumb key can be custom keys to help create the modifier combos
         case KC_LFT_TH:
