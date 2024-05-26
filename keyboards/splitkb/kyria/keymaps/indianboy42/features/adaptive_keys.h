@@ -14,7 +14,7 @@ bool            process_adaptive_key(uint16_t keycode, const keyrecord_t *record
             return_state = true;
             unregister_code(KC_LSFT);
             unregister_code(KC_RSFT);
-            keycode         = keycode & 0xFF;
+            /* keycode         = keycode & 0xFF; */
             uint16_t first  = KC_NO;
             uint16_t second = KC_NO;
             switch (prior_keycode) {
@@ -23,7 +23,7 @@ bool            process_adaptive_key(uint16_t keycode, const keyrecord_t *record
 #define AK_BOTH_START(key, def_key) \
     default:                        \
         return_state = true;        \
-        tap_code(first);            \
+        tap_code16(first);          \
         }                           \
         break;                      \
     case key:                       \
@@ -48,19 +48,21 @@ bool            process_adaptive_key(uint16_t keycode, const keyrecord_t *record
                         ADAPTIVE_KEYS_DEF();
                         default:
                             return_state = true;
-                            tap_code(first);
+                            tap_code16(first);
                     }
             }
             if (return_state) {
                 set_mods(saved_mods);
             } else {
                 set_mods(prior_saved_mods);
-                tap_code(first);
+                tap_code16(first);
                 clear_mods();
                 if (is_caps_word_on() && !caps_word_press_user(second)) {
                     add_weak_mods(MOD_BIT(KC_LSFT));
                 }
-                tap_code(second);
+                if (custom_keys(second, record)) {
+                    tap_code16(second);
+                }
             }
         }
         switch (keycode) {
@@ -77,7 +79,7 @@ bool            process_adaptive_key(uint16_t keycode, const keyrecord_t *record
 #define R_BTH(...)
 #define R_FST(...)
 #define R_SND(...)
-#include "adaptive_keys.def"
+            ADAPTIVE_KEYS_DEF();
         }
         // Restore mods
         prior_saved_mods = saved_mods;
@@ -89,15 +91,15 @@ bool            process_adaptive_key(uint16_t keycode, const keyrecord_t *record
 }
 
 void matrix_scan_user(void) {
-    if (timer_elapsed32(prior_keydown) >= ADAPTIVE_TERM) { // 30 seconds
+    if (timer_elapsed32(prior_keydown) >= ADAPTIVE_TERM) {
         switch (prior_keycode) {
 #undef AK_BOTH_START
 #define AK_BOTH_START(key, default_key) \
     case key:                           \
-        tap_code(default_key);          \
+        tap_code16(default_key);        \
         break;
 
-#include "adaptive_keys.def"
+            ADAPTIVE_KEYS_DEF();
         }
         prior_keydown = timer_read32();
         prior_keycode = KC_NO;

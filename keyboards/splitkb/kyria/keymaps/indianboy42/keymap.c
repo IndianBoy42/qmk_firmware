@@ -13,19 +13,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "keycodes.h"
 #include QMK_KEYBOARD_H
-#include "features/custom_shift_keys.h"
 
 enum layers {
     _QWERTY = 0,
+    _QWERTYP,
     _HANDDOWNN,
-    _HANDDOWNT,
+    _HANDDOWNR,
     _MINECRAFT,
     _NAV,
     _NUM,
+    _NUM2,
     _SYM,
     _HOLY,
+    _HOLY2,
     _FUNCTION,
 };
 
@@ -51,16 +52,44 @@ enum layers {
 #define KC_HYPR HYPR(KC_NO)
 #define SMO(X) LM(X, MOD_LSFT)
 
-enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH, KC_SH, KC_WH, KC_GH, KC_PH, KC_RPRN_MACRO, KC_LFT_TH, KC_RGT_TH, KC_LRPRN, KC_LRCBR, KC_LRBRC, KC_LRTRI };
+bool custom_keys(uint16_t keycode, const keyrecord_t *record);
+enum custom_keycodes {
+    KC_DUMMY_CUSTOM = SAFE_RANGE,
+    KC_QU,
+    KC_Qu,
+    KC_TH,
+    KC_CH,
+    KC_SH,
+    KC_WH,
+    KC_GH,
+    KC_PH,
+    KC_LFT_TH,
+    KC_RGT_TH,
+    KC_LRPRN, // Sends L and R and place the cursor inside
+    KC_LRCBR,
+    KC_LRBRC,
+    KC_LRTRI,
+    KC_LRQUO,
+    KC_LRDQU,
+    KC_LRGRV,
+    KC_R_PRN, // Sends R and move the cursor left (inside)
+    KC_R_CBR,
+    KC_R_BRC,
+    KC_R_TRI,
+    KC_R_QUO,
+    KC_R_DQU,
+    KC_R_GRV,
+    KC_ARROW,
+};
 
 // Aliases for readability
 #define QWERTY DF(_QWERTY)
 #define HANDDOWN DF(_HANDDOWNN)
 #define MINCRFT TO(_MINECRAFT)
 
-#define SYM MO(_SYM)
-#define HOLY MO(_HOLY)
-#define NUM MO(_NUM)
+#define SYM OSL(_SYM)
+#define HOLY OSL(_HOLY)
+#define NUM OSL(_NUM)
 #define NAV MO(_NAV)
 #define FKEYS MO(_FUNCTION)
 
@@ -77,10 +106,11 @@ enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH,
 #define CTL_QUOT MT(MOD_RCTL, KC_QUOTE)
 #define CTL_MINS MT(MOD_RCTL, KC_MINUS)
 #define ALT_ESC MT(MOD_LALT, KC_ESC)
-#define ALT_BSP MT(MOD_LALT, KC_BSPC)
+#define ALT_DEL MT(MOD_LALT, KC_DEL)
 #define SFT_BSP MT(MOD_LSFT, KC_BSPC)
 #define SFT_ESC MT(MOD_LSFT, KC_ESC)
 #define GUI_ESC MT(MOD_LGUI, KC_ESC)
+#define GUI_Q MT(MOD_LGUI, KC_Q)
 #define ALT_ENT MT(MOD_LALT, KC_ENT)
 #define ALT_TAB MT(MOD_LALT, KC_TAB)
 #define GUI_ENT MT(MOD_LGUI, KC_ENT)
@@ -91,6 +121,7 @@ enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH,
 #define SFT_SPC MT(MOD_LSFT, KC_SPC)
 #define CTL_ENT MT(MOD_LCTL, KC_ENT)
 #define CTL_TAB MT(MOD_LCTL, KC_TAB)
+#define CTL_BSP MT(MOD_LCTL, KC_BSPC)
 #define SYM_ENT LT(_SYM, KC_ENT)
 #define SYM_TAB LT(_SYM, KC_TAB)
 #define HLY_TAB LT(_HOLY, KC_TAB)
@@ -101,6 +132,7 @@ enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH,
 #define NUM_BSP LT(_NUM, KC_BSPC)
 #define NUM_ESC LT(_NUM, KC_ESC)
 #define NAV_ENT LT(_NAV, KC_ENT)
+#define NAV_SPC LT(_NAV, KC_SPC)
 #define NAV_TAB LT(_NAV, KC_TAB)
 #define NAV_UND LT(_NAV, KC_UNDS)
 #define NAV_BSL LT(_NAV, KC_BSLS)
@@ -110,59 +142,82 @@ enum custom_keycodes { KC_DUMMY_CUSTOM = SAFE_RANGE, KC_QU, KC_Qu, KC_TH, KC_CH,
 #define HOLY_R LT(_HOLY, KC_R)
 #define HOLY_SP LT(_HOLY, KC_SPC)
 #define CSA_ESC MT(MOD_LCTL | MOD_LSFT | MOD_LALT, KC_ESC)
-#define CSA_DEL MT(MOD_LCTL | MOD_LSFT | MOD_LALT, KC_DEL)
+#define CSA_BSP MT(MOD_LCTL | MOD_LSFT | MOD_LALT, KC_BSPC)
 #define KC_COPY LCTL(KC_C)
 #define KC_CUT LCTL(KC_X)
 #define KC_PSTE LCTL(KC_V)
 #define KC_UNDO LCTL(KC_Z)
 
+#define GU_A MT(MOD_LGUI, KC_A)
+#define AL_S MT(MOD_LALT, KC_S)
+#define CT_D MT(MOD_LCTL, KC_D)
+#define NV_V LT(_NAV, KC_V)
+#define GU_SCLN MT(MOD_LGUI, KC_SCLN)
+#define AL_L MT(MOD_LALT, KC_L)
+#define CT_K MT(MOD_LCTL, KC_K)
+#define NV_M LT(_NAV, KC_M)
+#define GU_R MT(MOD_LGUI, KC_R)
+#define AL_S MT(MOD_LALT, KC_S)
+#define CT_N MT(MOD_LCTL, KC_N)
+#define NV_D LT(_NAV, KC_D)
+#define GU_H MT(MOD_LGUI, KC_H)
+#define AL_I MT(MOD_LALT, KC_I)
+#define CT_E MT(MOD_LCTL, KC_E)
+#define NV_U LT(_NAV, KC_U)
+
 // TODO: https://docs.qmk.fm/#/feature_key_overrides?id=key-overrides
 // Use Key overrides
-const custom_shift_key_t custom_shift_keys[] = {
-    {KC_DOT, KC_COLN},  //
-    {KC_COMM, KC_SCLN}, //
-    {KC_MINS, KC_PPLS}, //
-    {KC_EQL, KC_ASTR},  //
-    {KC_LPRN, KC_RPRN}, //
-    {KC_LBRC, KC_RBRC}, //
-    {KC_LCBR, KC_RCBR}, //
-    {KC_UNDS, KC_TILD}, //
-    {KC_DLR, KC_CIRC},  //
-    {KC_AMPR, KC_BSLS}, //
-    {KC_ASTR, KC_HASH}, //
-    {KC_QU, KC_Qu},     //
+#define C_SHIFT(X, A, B) X(shift_##A##_##B, ko_make_basic(MOD_MASK_SHIFT, A, B))
+#define KEY_OVERRIDE_TABLE(X)    \
+    C_SHIFT(X, KC_DOT, KC_CIRC)  \
+    C_SHIFT(X, KC_COMM, KC_AMPR) \
+    C_SHIFT(X, KC_MINS, KC_PPLS) \
+    C_SHIFT(X, KC_EQL, KC_ASTR)  \
+    C_SHIFT(X, KC_LPRN, KC_RPRN) \
+    C_SHIFT(X, KC_LCBR, KC_RCBR) \
+    C_SHIFT(X, KC_LBRC, KC_RBRC) \
+    C_SHIFT(X, KC_UNDS, KC_MINS) \
+    C_SHIFT(X, KC_CIRC, KC_AMPR) \
+    C_SHIFT(X, KC_DLR, KC_PIPE)  \
+    C_SHIFT(X, KC_QU, KC_Qu)
+#define X_DEF(A, B) const key_override_t A = B;
+#define X_LIST(A, B) &A,
+KEY_OVERRIDE_TABLE(X_DEF)
+const key_override_t **key_overrides = (const key_override_t *[]){
+    KEY_OVERRIDE_TABLE(X_LIST) NULL // Null terminate the array of overrides!
 };
-uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_key_t);
-
-// TODO: try and use alternate hands home-row mod-tap
-// Ctrl - Alt - Shift - Symbols
 
 #define COMBOS_TABLE(X) \
     COMBOS_HANDDOWN(X)  \
-    COMBOS_QWERTY(X)
-// TODO: just redo this all with one column apart
-#define COMBOS_HANDDOWN(X)           \
-    X(1, KC_EQL, KC_COMM, KC_BSLS)   \
-    X(2, KC_COMM, KC_DOT, KC_BSLS)   \
-    X(3, KC_DOT, KC_QUOT, KC_BSLS)   \
-    X(4, KC_QUOT, KC_UNDS, KC_BSLS)   \
-    X(5, KC_SCLN, KC_A, KC_BSLS)   \
-    X(6, KC_A, KC_E, KC_BSLS)   \
-    X(7, KC_E, KC_I, KC_BSLS)   \
-    X(8, KC_I, KC_H, KC_BSLS)   \
+    COMBOS_QWERTY(X)    \
+    COMBOS_SYM(X)
+// TODO: Some of these could be adaptive keys?
+#define COMBOS_HANDDOWN(X)         \
+    X(1, KC_EQL, KC_COMM, KC_ASTR) \
+    X(2, KC_COMM, KC_DOT, KC_CIRC) \
+    X(3, KC_DOT, KC_QUOT, KC_AMPR) \
+    X(4, KC_QUOT, KC_UNDS, KC_GRV) \
+    X(5, KC_SCLN, KC_A, KC_COLN)   \
+    X(6, KC_A, KC_E, KC_RBRC)      \
+    X(7, KC_E, KC_I, KC_EXLM)      \
+    X(8, KC_I, KC_H, KC_DLR)       \
     X(9, KC_SLSH, KC_U, KC_BSLS)   \
-    X(10, KC_LPRN, KC_R, KC_LRPRN)   \
-    X(11, KC_LCBR, KC_X, KC_LRCBR)   \
-    X(12, KC_U, KC_O, KC_Q)          \
-    X(13, KC_O, KC_Y, KC_QU)         \
-    X(14, KC_Y, KC_K, KC_Z)          \
-    X(15, KC_T, KC_N, KC_TH)         \
-    X(16, KC_S, KC_N, KC_SH)         \
-    X(17, KC_S, KC_T, KC_CH)         \
-    X(18, KC_C, KC_L, KC_CH)         \
-    X(19, KC_F, KC_P, KC_WH)         \
-    X(20, KC_G, KC_D, KC_GH)         \
+    X(10, KC_LPRN, KC_R, KC_LRPRN) \
+    X(11, KC_LCBR, KC_X, KC_LRCBR) \
+    X(12, KC_U, KC_O, KC_Q)        \
+    X(13, KC_O, KC_Y, KC_QU)       \
+    X(14, KC_Y, KC_K, KC_Z)        \
+    COMBOS_HANDDOWN_BIGRAM(X)
+
+#define COMBOS_HANDDOWN_BIGRAM(X)        \
+    X(15, KC_T, KC_N, KC_LBRC) /*KC_TH*/ \
+    X(16, KC_S, KC_N, KC_SH)             \
+    X(17, KC_S, KC_T, KC_CH)             \
+    X(18, KC_C, KC_L, KC_CH)             \
+    X(19, KC_F, KC_P, KC_WH)             \
+    X(20, KC_G, KC_D, KC_GH)             \
     X(21, KC_P, KC_M, KC_PH)
+
 // TODO: clean this up
 #define COMBOS_QWERTY(X)            \
     X(22, KC_LPRN, KC_A, KC_LRPRN)  \
@@ -174,29 +229,58 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_
     X(28, KC_A, KC_S, KC_SLSH)      \
     X(29, KC_S, KC_D, KC_ASTR)      \
     X(30, KC_D, KC_F, KC_DLR)       \
-    X(31, KC_J, KC_K, KC_CIRC)      \
-    X(32, KC_K, KC_L, KC_EQL)       \
-    X(33, KC_L, KC_SCLN, KC_BSLS)   \
-    X(34, KC_COMM, KC_DOT, KC_UNDS) \
-    X(35, KC_I, KC_O, KC_MINS)      \
-    X(36, KC_DOT, KC_QUOT, KC_GRV)
+    X(31, KC_Z, KC_X, KC_AT)        \
+    X(32, KC_X, KC_C, KC_HASH)      \
+    X(33, KC_C, KC_V, KC_AMPR)      \
+    X(34, KC_W, KC_E, KC_NO)        \
+    X(35, KC_E, KC_R, KC_CIRC)      \
+    X(36, KC_R, KC_K, KC_NO)        \
+    X(37, KC_J, KC_K, KC_CIRC)      \
+    X(38, KC_K, KC_L, KC_EQL)       \
+    X(39, KC_L, KC_SCLN, KC_EXLM)   \
+    X(40, KC_U, KC_I, KC_NO)        \
+    X(41, KC_I, KC_O, KC_MINS)      \
+    X(42, KC_O, KC_K, KC_NO)        \
+    X(43, KC_COMM, KC_DOT, KC_UNDS) \
+    X(44, KC_DOT, KC_QUOT, KC_GRV)  \
+    X(45, KC_EQL, KC_W, KC_QU)      \
+    X(46, KC_EQL, KC_S, KC_Q)       \
+    X(47, KC_UNDS, KC_X, KC_Z)
+#define COMBOS_SYM(X)                 \
+    X(48, KC_UNDS, KC_QUOT, KC_LRQUO) \
+    X(49, KC_CIRC, KC_DQUO, KC_LRDQU) \
+    X(50, KC_GRV, KC_LPRN, KC_LRGRV)  \
+    X(51, KC_LBRC, KC_HASH, KC_LRBRC)
 
-#define ADAPTIVE_KEYS_DEF() \
-    AK_SND_ONLY_START(KC_G) \
-    R_SND(KC_M, KC_L)       \
-    AK_SND_ONLY_START(KC_U) \
-    R_SND(KC_H, KC_A)       \
-    AK_SND_ONLY_START(KC_A) \
-    R_SND(KC_H, KC_U)       \
-    AK_SND_ONLY_START(KC_E) \
-    R_SND(KC_H, KC_O)       \
-    AK_SND_ONLY_START(KC_B) \
-    R_SND(KC_D, KC_L)       \
-    AK_SND_ONLY_START(KC_P) \
-    R_SND(KC_M, KC_L)       \
-    AK_SND_ONLY_START(KC_O) \
-    R_SND(KC_H, KC_E)
-
+#define ADAPTIVE_KEYS_DEF()    \
+    AK_SND_ONLY_START(KC_G)    \
+    R_SND(KC_M, KC_L)          \
+    AK_SND_ONLY_START(KC_U)    \
+    R_SND(KC_H, KC_A)          \
+    AK_SND_ONLY_START(KC_A)    \
+    R_SND(KC_H, KC_U)          \
+    AK_SND_ONLY_START(KC_E)    \
+    R_SND(KC_H, KC_O)          \
+    AK_SND_ONLY_START(KC_B)    \
+    R_SND(KC_D, KC_L)          \
+    AK_SND_ONLY_START(KC_P)    \
+    R_SND(KC_M, KC_L)          \
+    AK_SND_ONLY_START(KC_O)    \
+    R_SND(KC_H, KC_E)          \
+    AK_SND_ONLY_START(KC_QUOT) \
+    R_SND(KC_QUOT, KC_R_QUO)   \
+    AK_SND_ONLY_START(KC_DQUO) \
+    R_SND(KC_DQUO, KC_R_DQU)   \
+    AK_SND_ONLY_START(KC_GRV)  \
+    R_SND(KC_GRV, KC_R_GRV)    \
+    AK_SND_ONLY_START(KC_LPRN) \
+    R_SND(KC_RPRN, KC_R_PRN)   \
+    AK_SND_ONLY_START(KC_LPRN) \
+    R_SND(KC_F, KC_R_PRN)   \
+    AK_SND_ONLY_START(KC_LBRC) \
+    R_SND(KC_RBRC, KC_R_BRC)   \
+    AK_SND_ONLY_START(KC_LCBR) \
+    R_SND(KC_RCBR, KC_R_CBR)
 #define ADAPTIVE_KEYS_DONT_WORK \
     AK_BOTH_START(KC_D, KC_D)   \
     R_FST(KC_B, KC_L)           \
@@ -204,34 +288,58 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_
     R_SND(KC_M, KC_L)           \
     R_FST(KC_V, KC_L)
 
-#define ADAPTIVE_TERM 100
+#define TAP_DANCE_TABLE(X) X(ESC_CAPS, ACTION_TAP_DANCE_DOUBLE, KC_ESC, KC_CAPS)
+#define X_NAME(N, ...) TD_##N
+enum { TAP_DANCE_TABLE(X_NAME) };
+#define TAP_DANCE(N, F, ...) [X_NAME(N)] = F(__VA_ARGS__),
+tap_dance_action_t tap_dance_actions[] = {
+    TAP_DANCE_TABLE(TAP_DANCE)
+    // Other declarations would go here, separated by commas, if you have them
+};
+
 /* https://github.com/openorclose/qmk_firmware/blob/master/keyboards/crkbd/keymaps/openorclose/features/adaptive_keys.h */
 /* https://www.reddit.com/r/KeyboardLayouts/comments/smnv1o/adaptive_keys_qmk_implementation/ */
 #include "features/adaptive_keys.h"
 
 // TODO: generate hint strings for the oled automatically
 // TODO: holy shit my modifiers are so jank
+// TODO: try and use alternate hands home-row mod-tap
+// Ctrl - Alt - Shift - Symbols
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
      KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
      KC_LPRN, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_DEL,
-     KC_LCBR, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    NUM_BSP, _______, _______, CTL_ESC, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT, FKEYS,
-                                KC_LGUI, NAV_TAB, KC_LSFT, SYM,     KC_LCTL, KC_LALT, KC_SPC,  SFT_TAB, KC_CSA,  KC_ENT
+     KC_LCBR, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    NUM_DEL, _______, _______, CTL_BSP, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT, FKEYS,
+                                KC_LGUI, NAV_TAB, KC_LSFT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
+    ),
+
+    [_QWERTYP] = LAYOUT(
+     KC_ESC,  KC_EQL,  KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
+     KC_LPRN, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_SLSH,
+     KC_LCBR, KC_UNDS, KC_X,    KC_C,    KC_V,    KC_B,    NUM_DEL, _______, _______, CTL_BSP, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT, FKEYS,
+                                GUI_Q,   NAV_TAB, KC_LSFT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
     ),
 
     [_SYM] = LAYOUT(
-     KC_LGUI, KC_GRV,  KC_LPRN, KC_EXLM, KC_AT,   KC_RPRN,                                     KC_DQUO, KC_CIRC, KC_QUES, KC_PERC, _______, _______,
-     KC_LCTL, KC_LCBR, KC_ASTR, KC_DLR,  KC_PIPE, KC_RCBR,                                     KC_QUOT, KC_UNDS, KC_EQL,  KC_BSLS, KC_COLN, _______,
-     KC_LCA,  KC_TILD, KC_LBRC, KC_HASH, KC_AMPR, KC_RBRC, KC_F4,   _______, _______, KC_LSFT, KC_SLSH, KC_MINS, KC_PPLS, KC_LT,   KC_GT,   KC_F6,
-                                KC_F1,   KC_F2,   KC_F3,   _______, _______, KC_LALT, _______, KC_LCTL, KC_COMM, KC_DOT
+     KC_LGUI, KC_GRV,  KC_LPRN, KC_EXLM, KC_PIPE, KC_AT,                                       KC_DQUO, KC_CIRC, KC_QUES, KC_PERC, KC_QU,   _______,
+     KC_LCTL, KC_LCBR, KC_ASTR, KC_DLR,  KC_RPRN, KC_RCBR,                                     KC_QUOT, KC_UNDS, KC_EQL,  KC_BSLS, KC_COLN, _______,
+     KC_LCA,  KC_TILD, KC_LBRC, KC_HASH, KC_AMPR, KC_RBRC, KC_LCTL, _______, _______, KC_LSFT, KC_SLSH, KC_MINS, KC_PPLS, KC_LT,   KC_GT,   KC_Z,
+                                KC_F1,   KC_F2,   KC_F3,   _______, _______, KC_LALT, KC_SPC,  KC_LCTL, KC_COMM, KC_DOT
     ),
 
     [_NUM] = LAYOUT(
      KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                                       KC_LPRN, KC_1,    KC_2,    KC_3,    KC_CIRC, KC_RPRN,
      KC_HYPR, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_CSA,                                      KC_PAST, KC_4,    KC_5,    KC_6,    KC_PSLS, KC_EQL,
-     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, _______, KC_BSPC, KC_PPLS, KC_7,    KC_8,    KC_9,    KC_PMNS, KC_UNDS,
-                                _______, _______, _______, FKEYS,   _______, KC_BSPC, _______, KC_0,    KC_COMM, KC_DOT
+     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, _______, _______, KC_PPLS, KC_7,    KC_8,    KC_9,    KC_PMNS, KC_UNDS,
+                                _______, _______, _______, KC_LCTL, KC_LALT, _______, KC_SPC,  KC_0,    KC_COMM, KC_DOT
+    ),
+
+    [_NUM2] = LAYOUT(
+     ______,  KC_PAST, KC_PSLS, KC_PPLS, KC_PMNS, ______,                                      KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_BSPC,
+     KC_HYPR, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_CSA,                                      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_GT,   KC_LT,
+     ______,  KC_CIRC, KC_LPRN, KC_RPRN, KC_UNDS, ______,  _______, _______, _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_EQL,
+                                _______, _______, _______, KC_LCTL, KC_LALT, _______, _______, ____,    KC_COMM, KC_DOT
     ),
 
     [_NAV] = LAYOUT(
@@ -245,21 +353,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_HANDDOWNN] = LAYOUT(
      NUM_ESC, KC_W,    KC_G,    KC_M,    KC_P,    KC_V,                                        KC_EQL,  KC_COMM, KC_DOT,  KC_QUOT, KC_UNDS, KC_BSPC,
      KC_LPRN, KC_R,    KC_S,    KC_N,    KC_T,    KC_B,                                        KC_SCLN, KC_A,    KC_E,    KC_I,    KC_H,    KC_J,
-     KC_LCBR, KC_X,    KC_C,    KC_L,    KC_D,    KC_F,    ALT_BSP, _______, _______, CTL_ESC, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_K,    FKEYS,
-                                KC_LGUI, NAV_TAB, KC_LSFT, HOLY,    KC_LCTL, KC_LALT, KC_SPC,  SFT_TAB, CSA_DEL, KC_ENT
+     KC_LCBR, KC_X,    KC_C,    KC_L,    KC_D,    KC_F,    ALT_DEL, _______, _______, CTL_BSP, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_K,    FKEYS,
+                                KC_LGUI, NAV_TAB, KC_LSFT, HOLY,    CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
     ),
-    [_HANDDOWNT] = LAYOUT(
+    [_HANDDOWNR] = LAYOUT(
      NUM_ESC, KC_X,    KC_P,    KC_H,    KC_G,    KC_K,                                        KC_EQL,  KC_COMM, KC_DOT,  KC_QUOT, KC_UNDS, KC_BSPC,
      KC_LPRN, KC_C,    KC_S,    KC_N,    KC_T,    KC_J,                                        KC_SCLN, KC_A,    KC_E,    KC_I,    KC_M,    KC_DEL,
-     KC_LCBR, KC_B,    KC_F,    KC_L,    KC_D,    KC_V,    ALT_BSP, _______, _______, CTL_ESC, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_W,    FKEYS,
-                                KC_LGUI, NAV_TAB, KC_LSFT, HOLY_R,  KC_LCTL, KC_LALT, KC_SPC,  SFT_TAB, CSA_DEL, KC_ENT
+     KC_LCBR, KC_B,    KC_F,    KC_L,    KC_D,    KC_V,    ALT_DEL, _______, _______, CTL_BSP, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_W,    FKEYS,
+                                KC_LGUI, NAV_TAB, KC_LSFT, HOLY_R,  CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
     ),
 
     [_HOLY] = LAYOUT(
-     KC_LCS,  KC_GRV,  KC_TILD, KC_PPLS, KC_BSLS, KC_PIPE,                                     KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_DEL,
-     KC_PERC, KC_CIRC, KC_AMPR, KC_DLR,  KC_LCBR, KC_RCBR,                                     KC_GT,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_LT,
-     KC_LGUI, KC_AT,   KC_HASH, KC_MINS, KC_LBRC, KC_RBRC, KC_LSFT, _______, _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_LCA,
-                                _______, _______, _______, _______, _______, _______, KC_LSFT, KC_SPC,  KC_UNDO, _______
+     KC_GRV,  KC_PMNS, KC_PPLS, KC_EXLM, KC_PIPE, KC_AT,                                       KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_DEL,
+     KC_PERC, KC_CIRC, KC_AMPR, KC_DLR,  KC_LCBR, KC_RCBR,                                     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_LT,   KC_GT,
+     _______, KC_TILD, KC_BSLS, KC_HASH, KC_LBRC, KC_RBRC, _______, _______, _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_EQL,
+                                KC_LGUI, KC_LPRN, KC_RPRN, _______, _______, _______, KC_SPC,  _______, KC_PAST, KC_PSLS
+    ),
+    [_HOLY2] = LAYOUT(
+     KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,
+     KC_PERC, KC_CIRC, KC_AMPR, KC_DLR,  KC_LCBR, KC_RCBR,                                     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_BSLS, KC_PIPE,
+     KC_AT,   KC_TILD, KC_HASH, KC_EXLM, KC_LBRC, KC_RBRC, _______, _______, _______, _______, _______, KC_PMNS, KC_PPLS, KC_LT,   KC_GT,   KC_EQL,
+                                KC_LGUI, KC_LPRN, KC_RPRN, _______, _______, _______, KC_SPC,  _______, KC_PAST, KC_PSLS
     ),
 
     [_MINECRAFT] = LAYOUT(
@@ -270,7 +384,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_FUNCTION] = LAYOUT(
-     QK_BOOT, KC_PAUS, KC_MPLY, KC_MNXT, KC_MPRV, MINCRFT,                                     KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______,
+     QK_BOOT, KC_PAUS, KC_MPLY, KC_MNXT, KC_MPRV, MINCRFT,                                     KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_UNDO,
      _______, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, HANDDOWN,                                    KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_PSCR,
      KC_CSA,  KC_F21,  KC_F22,  KC_F23,  KC_F24,  QWERTY,  RGB_TOG, _______, _______, KC_MUTE, KC_F11,  KC_F12,  KC_F13,  KC_F14,  KC_F15,  _______,
                                 KC_NUM,  KC_CAPS, KC_SCRL, RGB_MOD, KC_HYPR, KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20
@@ -282,6 +396,110 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
 //                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 //     ),
+};
+
+// TODO: achordion and try home row mods again
+// https://getreuer.info/posts/keyboards/achordion/index.html
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        default:
+            return TAPPING_TERM;
+    }
+}
+
+#undef X_NAME
+#define X_NAME(N, ...) COMBO_##N // ##_##B
+#define X_ENUM(N, A, B, C) X_NAME(N, A, B, C),
+#define X_name(N, A, B, C) combo_##N // ##_##B
+#define X_SEQ(N, A, B, C) const uint16_t PROGMEM X_name(N, A, B, C)[] = {A, B, COMBO_END};
+#define X_COMBO(N, A, B, C) [X_NAME(N, A, B, C)] = COMBO(X_name(N, A, B, C), C),
+
+enum combos { COMBOS_TABLE(X_ENUM) };
+COMBOS_TABLE(X_SEQ)
+combo_t key_combos[] = {COMBOS_TABLE(X_COMBO)};
+
+#define KC_MACRO(KC, STR)            \
+case KC:                         \
+    if (record->event.pressed) { \
+        SEND_STRING(STR);        \
+        return false;            \
+    }                            \
+    break;
+#define KC_MACRO2(KC, STR, SSTR) \
+case KC:                         \
+    if (record->event.pressed) { \
+        if ((mods | oneshot_mods) & MOD_MASK_SHIFT && !caps_word) {\
+            del_oneshot_mods(MOD_MASK_SHIFT); \
+            unregister_mods(MOD_MASK_SHIFT); \
+            SEND_STRING(SSTR);        \
+            register_mods(mods); \
+            return false;            \
+        }else{\
+            if (caps_word) register_mods(MOD_LSFT); \
+            SEND_STRING(STR);        \
+            register_mods(mods); \
+            return false;            \
+        }                            \
+    } \
+    break;
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    /* Disable combo `SOME_COMBO` on layer `_LAYER_A` */
+    switch (combo_index) {
+#define ONLY_IN_QWERTY(N, ...)          \
+        case X_NAME(N):                     \
+            if (!layer_state_is(_QWERTY) && !layer_state_is(_QWERTYP)) { \
+                return false;               \
+            };                              \
+            break;
+#define ONLY_IN_HANDDOWN(N, ...)           \
+        case X_NAME(N):                        \
+            if (!layer_state_is(_HANDDOWNN)) { \
+                return false;                  \
+            };                                 \
+            break;
+
+        COMBOS_QWERTY(ONLY_IN_QWERTY)
+        COMBOS_HANDDOWN(ONLY_IN_HANDDOWN)
+    }
+    return true;
+}
+bool custom_keys(uint16_t keycode, const keyrecord_t *record) {
+    const uint8_t mods = get_mods();
+    const uint8_t oneshot_mods = get_oneshot_mods();
+    const uint8_t caps_word = is_caps_word_on();
+    switch (keycode) {
+        KC_MACRO2(KC_QU, "qu", "Qu")
+        KC_MACRO(KC_Qu, "Qu")
+        KC_MACRO(KC_TH, "th")
+        KC_MACRO(KC_CH, "ch")
+        KC_MACRO(KC_SH, "sh")
+        KC_MACRO(KC_WH, "wh")
+        KC_MACRO(KC_GH, "gh")
+        KC_MACRO(KC_PH, "ph")
+#define KC_PAIR(N, L, R) \
+        KC_MACRO2(KC_LR##N, L R SS_TAP(X_LEFT), L "  " R SS_TAP(X_LEFT) SS_TAP(X_LEFT)) \
+        KC_MACRO2(KC_R_##N,  R SS_TAP(X_LEFT),  " " R SS_TAP(X_LEFT) SS_TAP(X_LEFT))
+        KC_PAIR(PRN, "(", ")")
+        KC_PAIR(CBR, "{", "}")
+        KC_PAIR(BRC, "[", "]")
+        KC_PAIR(TRI, "<", ">")
+        KC_PAIR(QUO, "'", "'")
+        KC_PAIR(DQU, "\"", "\"")
+        KC_PAIR(GRV, "`", "`")
+    }
+
+    return true;
+}
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_adaptive_key(keycode, record)) {
+        return false;
+    }
+    // Everything above here doesn't work with macros
+    if (!custom_keys(keycode, record)) {
+        return false;
+    }
+
+    return true;
 };
 
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
@@ -420,82 +638,3 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return false;
 }
 #endif
-
-#define X_NAME(N, ...) COMBO_##N // ##_##B
-#define X_ENUM(N, A, B, C) X_NAME(N, A, B, C),
-#define X_name(N, A, B, C) combo_##N // ##_##B
-#define X_SEQ(N, A, B, C) const uint16_t PROGMEM X_name(N, A, B, C)[] = {A, B, COMBO_END};
-#define X_COMBO(N, A, B, C) [X_NAME(N, A, B, C)] = COMBO(X_name(N, A, B, C), C),
-
-enum combos { COMBOS_TABLE(X_ENUM) };
-COMBOS_TABLE(X_SEQ)
-combo_t key_combos[COMBO_COUNT] = {COMBOS_TABLE(X_COMBO)};
-
-#define KC_MACRO(KC, STR)            \
-    case KC:                         \
-        if (record->event.pressed) { \
-            SEND_STRING(STR);        \
-            return false;            \
-        }                            \
-        break;
-#define KC_MACRO2(COM) KC_MACRO(KC_##COM, #COM)
-bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-    /* Disable combo `SOME_COMBO` on layer `_LAYER_A` */
-    switch (combo_index) {
-#define ONLY_IN_QWERTY(N, ...)          \
-    case X_NAME(N):                     \
-        if (!layer_state_is(_QWERTY)) { \
-            return false;               \
-        };                              \
-        break;
-#define ONLY_IN_HANDDOWN(N, ...)           \
-    case X_NAME(N):                        \
-        if (!layer_state_is(_HANDDOWNN)) { \
-            return false;                  \
-        };                                 \
-        break;
-
-        COMBOS_QWERTY(ONLY_IN_QWERTY)
-        COMBOS_HANDDOWN(ONLY_IN_HANDDOWN)
-    }
-    return true;
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_adaptive_key(keycode, record)) {
-        return false;
-    }
-    if (!process_custom_shift_keys(keycode, record)) {
-        return false;
-    }
-    // Your macros ...
-    switch (keycode) {
-        KC_MACRO(KC_QU, "qu")
-        KC_MACRO(KC_Qu, "Qu")
-        KC_MACRO(KC_TH, "th")
-        KC_MACRO(KC_CH, "ch")
-        KC_MACRO(KC_SH, "sh")
-        KC_MACRO(KC_WH, "wh")
-        KC_MACRO(KC_GH, "gh")
-        KC_MACRO(KC_PH, "ph")
-        KC_MACRO(KC_RPRN_MACRO, ")")
-        KC_MACRO(KC_LRPRN, "()")
-        KC_MACRO(KC_LRCBR, "{}")
-        KC_MACRO(KC_LRBRC, "[]")
-        KC_MACRO(KC_LRTRI, "<>")
-
-            // TODO: the upper thumb key can be custom keys to help create the modifier combos
-        case KC_LFT_TH:
-            if (record->event.pressed) {
-                return 0;
-            }
-            break;
-        case KC_RGT_TH:
-            if (record->event.pressed) {
-                return 0;
-            }
-            break;
-    }
-
-    return true;
-};

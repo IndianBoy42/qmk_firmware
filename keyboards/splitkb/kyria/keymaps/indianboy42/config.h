@@ -37,11 +37,13 @@
 
 // https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md
 /* #define PERMISSIVE_HOLD */
-#define IGNORE_MOD_TAP_INTERRUPT
 
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 
 #define FORCE_NKRO
-#define COMBO_COUNT 36
 #define COMBO_TERM 40
 #define COMBO_SHOULD_TRIGGER
+
+#define TAPPING_TERM_PER_KEY
+#define TAPPING_TERM 200 //TODO: dynamic tapping term
+#define ADAPTIVE_TERM 100
