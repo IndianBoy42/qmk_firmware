@@ -44,3 +44,7 @@ upstream:
 
 compile_commands:
     qmk generate-compilation-database -kb {{kb}} -km {{km}}
+
+save-config:
+    qmk config user.keyboard={{kb}}
+    qmk config user.keymap={{km}}

@@ -13,6 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "quantum_keycodes.h"
 #include QMK_KEYBOARD_H
 
 enum layers {
@@ -63,33 +64,41 @@ enum custom_keycodes {
     KC_WH,
     KC_GH,
     KC_PH,
+    KC_LTEQ,
+    KC_GTEQ,
+    KC_NTEQ,
+    KC_PLEQ,
+    KC_MNEQ,
+    KC_STEQ,
+    KC_SLEQ,
+    KC_ARRW,
     KC_LFT_TH,
     KC_RGT_TH,
-    KC_LRPRN, // Sends L and R and place the cursor inside
-    KC_LRCBR,
-    KC_LRBRC,
-    KC_LRTRI,
-    KC_LRQUO,
-    KC_LRDQU,
-    KC_LRGRV,
-    KC_R_PRN, // Sends R and move the cursor left (inside)
-    KC_R_CBR,
-    KC_R_BRC,
-    KC_R_TRI,
-    KC_R_QUO,
-    KC_R_DQU,
-    KC_R_GRV,
+    LR_PRN, // Sends L and R and place the cursor inside
+    LR_CBR,
+    LR_BRC,
+    LR_TRI,
+    LR_QUO,
+    LR_DQU,
+    LR_GRV,
+    KR_PRN, // Sends R and move the cursor left (inside)
+    KR_CBR,
+    KR_BRC,
+    KR_TRI,
+    KR_QUO,
+    KR_DQU,
+    KR_GRV,
     KC_ARROW,
 };
 
 // Aliases for readability
 #define QWERTY DF(_QWERTY)
-#define HANDDOWN DF(_HANDDOWNN)
+#define HANDDWN DF(_HANDDOWNN)
 #define MINCRFT TO(_MINECRAFT)
 
-#define SYM OSL(_SYM)
-#define HOLY OSL(_HOLY)
-#define NUM OSL(_NUM)
+#define SYM MO(_SYM)
+#define HOLY MO(_HOLY)
+#define NUM MO(_NUM)
 #define NAV MO(_NAV)
 #define FKEYS MO(_FUNCTION)
 
@@ -97,6 +106,10 @@ enum custom_keycodes {
 #define CC_DOWN LCTL(KC_DOWN)
 #define CC_UP LCTL(KC_UP)
 #define CC_RGHT LCTL(KC_RGHT)
+#define AL_LEFT LALT(KC_LEFT)
+#define AL_DOWN LALT(KC_DOWN)
+#define AL_UP LALT(KC_UP)
+#define AL_RGHT LALT(KC_RGHT)
 
 #define KC_S_Q LSFT(KC_Q)
 #define KC_S_Z LSFT(KC_Z)
@@ -147,23 +160,33 @@ enum custom_keycodes {
 #define KC_CUT LCTL(KC_X)
 #define KC_PSTE LCTL(KC_V)
 #define KC_UNDO LCTL(KC_Z)
+#define KC_REDO LCTL(LSFT(KC_Z))
 
 #define GU_A MT(MOD_LGUI, KC_A)
 #define AL_S MT(MOD_LALT, KC_S)
 #define CT_D MT(MOD_LCTL, KC_D)
-#define NV_V LT(_NAV, KC_V)
+#define NV_F LT(_NAV, KC_F)
 #define GU_SCLN MT(MOD_LGUI, KC_SCLN)
 #define AL_L MT(MOD_LALT, KC_L)
 #define CT_K MT(MOD_LCTL, KC_K)
-#define NV_M LT(_NAV, KC_M)
+#define NV_J LT(_NAV, KC_J)
 #define GU_R MT(MOD_LGUI, KC_R)
 #define AL_S MT(MOD_LALT, KC_S)
 #define CT_N MT(MOD_LCTL, KC_N)
-#define NV_D LT(_NAV, KC_D)
+#define NV_T LT(_NAV, KC_T)
 #define GU_H MT(MOD_LGUI, KC_H)
 #define AL_I MT(MOD_LALT, KC_I)
 #define CT_E MT(MOD_LCTL, KC_E)
-#define NV_U LT(_NAV, KC_U)
+#define NV_A LT(_NAV, KC_A)
+
+#define TAPTAP(KC, HOLD)                                   \
+    case LT(0, KC):                                        \
+        if (!record->tap.count && record->event.pressed) { \
+            tap_code16(HOLD);                              \
+            return false;                                  \
+        }                                                  \
+        return true;
+#define TTKC(KC, HOLD) LT(0, KC)
 
 // TODO: https://docs.qmk.fm/#/feature_key_overrides?id=key-overrides
 // Use Key overrides
@@ -202,8 +225,8 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     X(7, KC_E, KC_I, KC_EXLM)      \
     X(8, KC_I, KC_H, KC_DLR)       \
     X(9, KC_SLSH, KC_U, KC_BSLS)   \
-    X(10, KC_LPRN, KC_R, KC_LRPRN) \
-    X(11, KC_LCBR, KC_X, KC_LRCBR) \
+    X(10, KC_LPRN, KC_R, LR_PRN)   \
+    X(11, KC_LCBR, KC_X, LR_CBR)   \
     X(12, KC_U, KC_O, KC_Q)        \
     X(13, KC_O, KC_Y, KC_QU)       \
     X(14, KC_Y, KC_K, KC_Z)        \
@@ -220,10 +243,8 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 
 // TODO: clean this up
 #define COMBOS_QWERTY(X)            \
-    X(22, KC_LPRN, KC_A, KC_LRPRN)  \
-    X(23, KC_LCBR, KC_Z, KC_LRCBR)  \
-    X(24, KC_LPRN, KC_D, KC_RPRN)   \
-    X(25, KC_LCBR, KC_C, KC_RCBR)   \
+    X(22, KC_LPRN, KC_A, LR_PRN)    \
+    X(23, KC_LCBR, KC_Z, LR_CBR)    \
     X(26, KC_M, KC_COMM, KC_LT)     \
     X(27, KC_M, KC_DOT, KC_GT)      \
     X(28, KC_A, KC_S, KC_SLSH)      \
@@ -246,11 +267,12 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     X(45, KC_EQL, KC_W, KC_QU)      \
     X(46, KC_EQL, KC_S, KC_Q)       \
     X(47, KC_UNDS, KC_X, KC_Z)
-#define COMBOS_SYM(X)                 \
-    X(48, KC_UNDS, KC_QUOT, KC_LRQUO) \
-    X(49, KC_CIRC, KC_DQUO, KC_LRDQU) \
-    X(50, KC_GRV, KC_LPRN, KC_LRGRV)  \
-    X(51, KC_LBRC, KC_HASH, KC_LRBRC)
+#define COMBOS_SYM(X)               \
+    X(48, KC_UNDS, KC_QUOT, LR_QUO) \
+    X(49, KC_CIRC, KC_DQUO, LR_DQU) \
+    X(50, KC_GRV, KC_LPRN, LR_GRV)  \
+    X(51, KC_LBRC, KC_HASH, LR_BRC) \
+    X(52, KC_LT, KC_GT, LR_TRI)
 
 #define ADAPTIVE_KEYS_DEF()    \
     AK_SND_ONLY_START(KC_G)    \
@@ -268,19 +290,21 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     AK_SND_ONLY_START(KC_O)    \
     R_SND(KC_H, KC_E)          \
     AK_SND_ONLY_START(KC_QUOT) \
-    R_SND(KC_QUOT, KC_R_QUO)   \
+    R_SND(KC_QUOT, KR_QUO)     \
     AK_SND_ONLY_START(KC_DQUO) \
-    R_SND(KC_DQUO, KC_R_DQU)   \
+    R_SND(KC_DQUO, KR_DQU)     \
     AK_SND_ONLY_START(KC_GRV)  \
-    R_SND(KC_GRV, KC_R_GRV)    \
+    R_SND(KC_GRV, KR_GRV)      \
     AK_SND_ONLY_START(KC_LPRN) \
-    R_SND(KC_RPRN, KC_R_PRN)   \
-    AK_SND_ONLY_START(KC_LPRN) \
-    R_SND(KC_F, KC_R_PRN)   \
+    R_SND(KC_RPRN, KR_PRN)     \
+    R_SND(KC_F, KR_PRN)        \
     AK_SND_ONLY_START(KC_LBRC) \
-    R_SND(KC_RBRC, KC_R_BRC)   \
+    R_SND(KC_RBRC, KR_BRC)     \
     AK_SND_ONLY_START(KC_LCBR) \
-    R_SND(KC_RCBR, KC_R_CBR)
+    R_SND(KC_RCBR, KR_CBR)     \
+    R_SND(KC_V, KR_CBR)        \
+    AK_SND_ONLY_START(KC_LT)   \
+    R_SND(KC_GT, KR_TRI)
 #define ADAPTIVE_KEYS_DONT_WORK \
     AK_BOTH_START(KC_D, KC_D)   \
     R_FST(KC_B, KC_L)           \
@@ -288,22 +312,94 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     R_SND(KC_M, KC_L)           \
     R_FST(KC_V, KC_L)
 
-#define TAP_DANCE_TABLE(X) X(ESC_CAPS, ACTION_TAP_DANCE_DOUBLE, KC_ESC, KC_CAPS)
-#define X_NAME(N, ...) TD_##N
-enum { TAP_DANCE_TABLE(X_NAME) };
-#define TAP_DANCE(N, F, ...) [X_NAME(N)] = F(__VA_ARGS__),
-tap_dance_action_t tap_dance_actions[] = {
-    TAP_DANCE_TABLE(TAP_DANCE)
-    // Other declarations would go here, separated by commas, if you have them
-};
+#define DANCE_DOUBLE_TAP(N, ...) ACTION_TAP_DANCE_DOUBLE(__VA_ARGS__)
+#define DTH_MOD(KC) register_mods(MOD_BIT(KC))
+#define DTH_UMOD(KC) unregister_mods(MOD_BIT(KC))
+#define DTH_REG(KC) register_code16(MOD_BIT(KC))
+#define DTH_UREG(KC) unregister_code16(MOD_BIT(KC))
+#define DTH_SEND(STR) SEND_STRING(STR)
+#define TAP_DANCE_TABLE(X)                                                              \
+    X(ESC_CAP, DANCE_DOUBLE_TAP, NOP, KC_ESC, KC_CAPS)                                  \
+    X(DT_PRN, DANCE_DOUBLE_TAP, NOP, KC_LPRN, LR_PRN)                                   \
+    X(DT_CBR, DANCE_DOUBLE_TAP, NOP, KC_LCBR, LR_CBR)                                   \
+    X(DT_BRC, DANCE_DOUBLE_TAP, NOP, KC_LBRC, LR_BRC)                                   \
+    X(DT_TRI, DANCE_DOUBLE_TAP, NOP, KC_LT, LR_TRI)                                     \
+    X(DT_QUO, DANCE_DOUBLE_TAP, NOP, KC_QUOT, LR_QUO)                                   \
+    X(DT_DQU, DANCE_DOUBLE_TAP, NOP, KC_DQUO, LR_DQU)                                   \
+    X(DT_GRV, DANCE_DOUBLE_TAP, NOP, KC_GRV, LR_GRV)                                    \
+    X(CTRL_LP, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LPRN, DTH_MOD, DTH_UMOD, KC_LCTL) \
+    X(TH_LPRN, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LPRN, DTH_SEND, NOP, ")" SS_TAP(X_LEFT))
+
+#define X__NAME(N, ...) _##N
+#define X_NAME(N, ...) N
+#define X__ENUM(...) X__NAME(__VA_ARGS__),
+#define X_ENUM(...) X_NAME(__VA_ARGS__) = TD(X__NAME(__VA_ARGS__)),
+enum { TAP_DANCE_TABLE(X__ENUM) TAP_DANCE_TABLE(X_ENUM) };
+#define NOP(...)
+#define TAP_DANCE_ARR(N, F, G, ...) [X__NAME(N)] = F(N, __VA_ARGS__),
+#define TAP_DANCE_FN(N, F, G, ...) G(N, __VA_ARGS__)
+
+// determine the tapdance state to return
+static enum {
+    SINGLE_TAP,
+    SINGLE_HOLD,
+    DOUBLE_SINGLE_TAP,
+} td_state;
+int cur_dance(tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (state->interrupted || !state->pressed) {
+            return SINGLE_TAP;
+        } else {
+            return SINGLE_HOLD;
+        }
+    }
+    if (state->count == 2) {
+        return DOUBLE_SINGLE_TAP;
+    } else {
+        return 3;
+    } // any number higher than the maximum state value you return above
+}
+#define DANCE_TAP_HOLD(N, ...) ACTION_TAP_DANCE_FN_ADVANCED(NULL, N##_finished, N##_reset)
+#define DANCE_TAP_HOLD_FNS(N, TAP, HOLD, UNHOLD, ...)              \
+    void N##_finished(tap_dance_state_t *state, void *user_data) { \
+        td_state = cur_dance(state);                               \
+        switch (td_state) {                                        \
+            case SINGLE_TAP:                                       \
+                register_code16(TAP);                              \
+                break;                                             \
+            case SINGLE_HOLD:                                      \
+                HOLD(__VA_ARGS__);                                 \
+                break;                                             \
+            case DOUBLE_SINGLE_TAP:                                \
+                tap_code16(TAP);                                   \
+                register_code16(TAP);                              \
+        }                                                          \
+    }                                                              \
+    void N##_reset(tap_dance_state_t *state, void *user_data) {    \
+        switch (td_state) {                                        \
+            case SINGLE_TAP:                                       \
+                unregister_code16(TAP);                            \
+                break;                                             \
+            case SINGLE_HOLD:                                      \
+                UNHOLD(__VA_ARGS__);                               \
+                break;                                             \
+            case DOUBLE_SINGLE_TAP:                                \
+                unregister_code16(TAP);                            \
+        }                                                          \
+    }
+
+TAP_DANCE_TABLE(TAP_DANCE_FN)
+tap_dance_action_t tap_dance_actions[] = {TAP_DANCE_TABLE(TAP_DANCE_ARR)};
+
+// TODO: Macroize: https://github.com/samhocevar-forks/qmk-firmware/blob/master/docs/feature_tap_dance.md
 
 /* https://github.com/openorclose/qmk_firmware/blob/master/keyboards/crkbd/keymaps/openorclose/features/adaptive_keys.h */
 /* https://www.reddit.com/r/KeyboardLayouts/comments/smnv1o/adaptive_keys_qmk_implementation/ */
 #include "features/adaptive_keys.h"
 
 // TODO: generate hint strings for the oled automatically
-// TODO: holy shit my modifiers are so jank
 // TODO: try and use alternate hands home-row mod-tap
+// or combos for mods/layers (only uncommon ones)
 // Ctrl - Alt - Shift - Symbols
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -311,27 +407,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
      KC_LPRN, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_DEL,
      KC_LCBR, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    NUM_DEL, _______, _______, CTL_BSP, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT, FKEYS,
-                                KC_LGUI, NAV_TAB, KC_LSFT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
+                                GUI_ESC, NAV_TAB, SFT_ENT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
     ),
 
     [_QWERTYP] = LAYOUT(
      KC_ESC,  KC_EQL,  KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
      KC_LPRN, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_SLSH,
      KC_LCBR, KC_UNDS, KC_X,    KC_C,    KC_V,    KC_B,    NUM_DEL, _______, _______, CTL_BSP, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT, FKEYS,
-                                GUI_Q,   NAV_TAB, KC_LSFT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
+                                GUI_Q,   NAV_TAB, SFT_ENT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
     ),
 
     [_SYM] = LAYOUT(
      KC_LGUI, KC_GRV,  KC_LPRN, KC_EXLM, KC_PIPE, KC_AT,                                       KC_DQUO, KC_CIRC, KC_QUES, KC_PERC, KC_QU,   _______,
      KC_LCTL, KC_LCBR, KC_ASTR, KC_DLR,  KC_RPRN, KC_RCBR,                                     KC_QUOT, KC_UNDS, KC_EQL,  KC_BSLS, KC_COLN, _______,
      KC_LCA,  KC_TILD, KC_LBRC, KC_HASH, KC_AMPR, KC_RBRC, KC_LCTL, _______, _______, KC_LSFT, KC_SLSH, KC_MINS, KC_PPLS, KC_LT,   KC_GT,   KC_Z,
-                                KC_F1,   KC_F2,   KC_F3,   _______, _______, KC_LALT, KC_SPC,  KC_LCTL, KC_COMM, KC_DOT
+                                _______, _______, _______, _______, _______, KC_LALT, KC_SPC,  KC_LCTL, KC_COMM, KC_DOT
     ),
 
     [_NUM] = LAYOUT(
-     KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                                       KC_LPRN, KC_1,    KC_2,    KC_3,    KC_CIRC, KC_RPRN,
+     _____,   _____,   _____,   _____,   _____,   _____,                                       KC_LPRN, KC_1,    KC_2,    KC_3,    KC_CIRC, KC_RPRN,
      KC_HYPR, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_CSA,                                      KC_PAST, KC_4,    KC_5,    KC_6,    KC_PSLS, KC_EQL,
-     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, _______, _______, KC_PPLS, KC_7,    KC_8,    KC_9,    KC_PMNS, KC_UNDS,
+     _____,   _____,   _____,   _____,   _____,   _____,   _______, _______, _______, _______, KC_PPLS, KC_7,    KC_8,    KC_9,    KC_PMNS, KC_UNDS,
                                 _______, _______, _______, KC_LCTL, KC_LALT, _______, KC_SPC,  KC_0,    KC_COMM, KC_DOT
     ),
 
@@ -343,13 +439,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_NAV] = LAYOUT(
-     KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                                       CC_LEFT, CC_DOWN, CC_UP,   CC_RGHT, _______, _______,
-     FKEYS,   KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_CSA,                                      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,  KC_PSCR,
-     KC_F7,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_F12,  _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______,
-                                _______, _______, _______, _______, _______, KC_CUT,  KC_COPY, KC_PSTE, KC_UNDO, _______
+     _____,   KC_UNDO,  KC_CUT, KC_COPY, KC_PSTE, KC_REDO,                                     CC_LEFT, CC_DOWN, CC_UP,   CC_RGHT, _______, _______,
+     _____,   KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_CSA,                                      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_MENU, _______,
+     _____,   KC_F1,   AL_LEFT, AL_RGHT,   KC_F2, KC_INS,  _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______,
+                                _______, _______, _______, KC_SPC,  _______, _______, _______, _______, _______, _______
     ),
 
     // TODO: https://sites.google.com/alanreiser.com/handsdown/home/hands-down-neu#h.ze4kq734zl5w
+       // TODO: concentrate on 3 thumb keys for "downgrading" in the future
     [_HANDDOWNN] = LAYOUT(
      NUM_ESC, KC_W,    KC_G,    KC_M,    KC_P,    KC_V,                                        KC_EQL,  KC_COMM, KC_DOT,  KC_QUOT, KC_UNDS, KC_BSPC,
      KC_LPRN, KC_R,    KC_S,    KC_N,    KC_T,    KC_B,                                        KC_SCLN, KC_A,    KC_E,    KC_I,    KC_H,    KC_J,
@@ -370,9 +467,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_LGUI, KC_LPRN, KC_RPRN, _______, _______, _______, KC_SPC,  _______, KC_PAST, KC_PSLS
     ),
     [_HOLY2] = LAYOUT(
-     KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,
-     KC_PERC, KC_CIRC, KC_AMPR, KC_DLR,  KC_LCBR, KC_RCBR,                                     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_BSLS, KC_PIPE,
-     KC_AT,   KC_TILD, KC_HASH, KC_EXLM, KC_LBRC, KC_RBRC, _______, _______, _______, _______, _______, KC_PMNS, KC_PPLS, KC_LT,   KC_GT,   KC_EQL,
+     KC_GRV,  KC_PMNS, KC_PPLS, KC_EXLM, KC_LT,   KC_GT,                                       _______, KC_1,    KC_2,    KC_3,    KC_DEL,  KC_BSPC,
+     KC_PERC, KC_CIRC, KC_AMPR, KC_DLR,  KC_LCBR, KC_RCBR,                                     KC_0,    KC_4,    KC_5,    KC_6,    KC_BSLS, KC_DEL,
+     _______, KC_TILD, KC_PIPE, KC_HASH, KC_LBRC, KC_RBRC, _______, _______, _______, _______, KC_AT,   KC_7,    KC_8,    KC_9,    KC_EQL,  ____,
                                 KC_LGUI, KC_LPRN, KC_RPRN, _______, _______, _______, KC_SPC,  _______, KC_PAST, KC_PSLS
     ),
 
@@ -384,8 +481,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_FUNCTION] = LAYOUT(
-     QK_BOOT, KC_PAUS, KC_MPLY, KC_MNXT, KC_MPRV, MINCRFT,                                     KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_UNDO,
-     _______, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, HANDDOWN,                                    KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_PSCR,
+     QK_BOOT, KC_PAUS, KC_MPLY, KC_MNXT, KC_MPRV, MINCRFT,                                     KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   QK_BOOT,
+     _______, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, HANDDWN,                                     KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_PSCR,
      KC_CSA,  KC_F21,  KC_F22,  KC_F23,  KC_F24,  QWERTY,  RGB_TOG, _______, _______, KC_MUTE, KC_F11,  KC_F12,  KC_F13,  KC_F14,  KC_F15,  _______,
                                 KC_NUM,  KC_CAPS, KC_SCRL, RGB_MOD, KC_HYPR, KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20
     )
@@ -402,6 +499,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // https://getreuer.info/posts/keyboards/achordion/index.html
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case TH_LPRN: return DOUBLE_TAP_TERM;
         default:
             return TAPPING_TERM;
     }
@@ -409,6 +507,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 #undef X_NAME
 #define X_NAME(N, ...) COMBO_##N // ##_##B
+#undef X_ENUM
 #define X_ENUM(N, A, B, C) X_NAME(N, A, B, C),
 #define X_name(N, A, B, C) combo_##N // ##_##B
 #define X_SEQ(N, A, B, C) const uint16_t PROGMEM X_name(N, A, B, C)[] = {A, B, COMBO_END};
@@ -468,7 +567,7 @@ bool custom_keys(uint16_t keycode, const keyrecord_t *record) {
     const uint8_t oneshot_mods = get_oneshot_mods();
     const uint8_t caps_word = is_caps_word_on();
     switch (keycode) {
-        KC_MACRO2(KC_QU, "qu", "Qu")
+        KC_MACRO2(KC_QU, "qu", "Qu") // TODO: send q if ctl/alt/gui?
         KC_MACRO(KC_Qu, "Qu")
         KC_MACRO(KC_TH, "th")
         KC_MACRO(KC_CH, "ch")
@@ -476,9 +575,17 @@ bool custom_keys(uint16_t keycode, const keyrecord_t *record) {
         KC_MACRO(KC_WH, "wh")
         KC_MACRO(KC_GH, "gh")
         KC_MACRO(KC_PH, "ph")
+        KC_MACRO2(KC_LTEQ, "<=", "<<")
+        KC_MACRO2(KC_GTEQ, ">=", ">>")
+        KC_MACRO2(KC_NTEQ, "!=", "==")
+        KC_MACRO2(KC_PLEQ, "+=", "*=")
+        KC_MACRO2(KC_MNEQ, "-=", "/=")
+        KC_MACRO2(KC_STEQ, "*=", "+=")
+        KC_MACRO2(KC_SLEQ, "/=", "-=")
+        KC_MACRO2(KC_ARRW, "->", "=>")
 #define KC_PAIR(N, L, R) \
-        KC_MACRO2(KC_LR##N, L R SS_TAP(X_LEFT), L "  " R SS_TAP(X_LEFT) SS_TAP(X_LEFT)) \
-        KC_MACRO2(KC_R_##N,  R SS_TAP(X_LEFT),  " " R SS_TAP(X_LEFT) SS_TAP(X_LEFT))
+        KC_MACRO2(LR_##N, L R SS_TAP(X_LEFT), L "  " R SS_TAP(X_LEFT) SS_TAP(X_LEFT)) \
+        KC_MACRO2(KR_##N,  R SS_TAP(X_LEFT),  " " R SS_TAP(X_LEFT) SS_TAP(X_LEFT))
         KC_PAIR(PRN, "(", ")")
         KC_PAIR(CBR, "{", "}")
         KC_PAIR(BRC, "[", "]")

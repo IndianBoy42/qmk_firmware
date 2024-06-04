@@ -1,3 +1,7 @@
+#include QMK_KEYBOARD_H
+#ifndef ADAPTIVE_KEYS_DEF
+#    define ADAPTIVE_KEYS_DEF()
+#endif
 static uint8_t  prior_saved_mods = 0;
 static uint16_t prior_keycode    = KC_NO;
 static uint32_t prior_keydown    = 0;
