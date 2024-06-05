@@ -408,14 +408,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
      KC_LPRN, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_DEL,
      KC_LCBR, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    NUM_BSP, _______, _______, CTL_DEL, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT, FKEYS,
-                                GUI_ESC, NAV_TAB, SFT_ENT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
+                                GUI_ESC, NAV_TAB, KC_LSFT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
     ),
 
     [_QWERTYP] = LAYOUT(
      KC_ESC,  KC_EQL,  KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
      KC_LPRN, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_SLSH,
      KC_LCBR, KC_UNDS, KC_X,    KC_C,    KC_V,    KC_B,    NUM_BSP, _______, _______, CTL_DEL, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT, FKEYS,
-                                GUI_Q,   NAV_TAB, SFT_ENT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
+                                GUI_Q,   NAV_TAB, KC_LSFT, SYM,     CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
     ),
 
     [_SYM] = LAYOUT(
@@ -452,13 +452,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      NUM_ESC, KC_W,    KC_G,    KC_M,    KC_P,    KC_V,                                        KC_EQL,  KC_COMM, KC_DOT,  KC_QUOT, KC_UNDS, KC_BSPC,
      KC_LPRN, KC_R,    KC_S,    KC_N,    KC_T,    KC_B,                                        KC_SCLN, KC_A,    KC_E,    KC_I,    KC_H,    KC_J,
      KC_LCBR, KC_X,    KC_C,    KC_L,    KC_D,    KC_F,    ALT_BSP, _______, _______, CTL_DEL, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_K,    FKEYS,
-                                KC_LGUI, NAV_TAB, SFT_ENT, HOLY,    CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
+                                KC_LGUI, NAV_TAB, KC_LSFT, HOLY,    CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
     ),
     [_HANDDOWNR] = LAYOUT(
      NUM_ESC, KC_X,    KC_P,    KC_H,    KC_G,    KC_K,                                        KC_EQL,  KC_COMM, KC_DOT,  KC_QUOT, KC_UNDS, KC_BSPC,
      KC_LPRN, KC_C,    KC_S,    KC_N,    KC_T,    KC_J,                                        KC_SCLN, KC_A,    KC_E,    KC_I,    KC_M,    KC_DEL,
      KC_LCBR, KC_B,    KC_F,    KC_L,    KC_D,    KC_V,    ALT_BSP, _______, _______, CTL_DEL, KC_SLSH, KC_U,    KC_O,    KC_Y,    KC_W,    FKEYS,
-                                KC_LGUI, NAV_TAB, SFT_ENT, HOLY_R,  CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
+                                KC_LGUI, NAV_TAB, KC_LSFT, HOLY_R,  CTL_ESC, ALT_ENT, NAV_SPC, SFT_TAB, CSA_BSP, KC_ENT
     ),
 
     [_HOLY] = LAYOUT(
