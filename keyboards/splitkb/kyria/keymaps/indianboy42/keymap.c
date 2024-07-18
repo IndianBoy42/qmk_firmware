@@ -251,9 +251,15 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 #define COMBOS_QWERTY(X)            \
     X(22, KC_LPRN, KC_A, LR_PRN)    \
     X(23, KC_LCBR, KC_Z, LR_CBR)    \
+    X(43, KC_COMM, KC_DOT, KC_MINS) \
+    X(44, KC_DOT, KC_QUOT, KC_SLSH) \
+    X(45, KC_EQL, KC_W, KC_QU)      \
+    X(46, KC_EQL, KC_S, KC_Q)       \
+    X(47, KC_UNDS, KC_X, KC_Z)      \
+    X(39, KC_L, KC_SCLN, KC_EXLM)   \
     X(26, KC_M, KC_COMM, KC_LT)     \
     X(27, KC_M, KC_DOT, KC_GT)      \
-    X(28, KC_A, KC_S, KC_SLSH)      \
+    //X(28, KC_A, KC_S, KC_SLSH)      \
     X(29, KC_S, KC_D, KC_ASTR)      \
     X(30, KC_D, KC_F, KC_DLR)       \
     X(31, KC_Z, KC_X, KC_AT)        \
@@ -261,13 +267,7 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     X(33, KC_C, KC_V, KC_AMPR)      \
     X(37, KC_J, KC_K, KC_UNDS)      \
     X(38, KC_K, KC_L, KC_EQL)       \
-    X(39, KC_L, KC_SCLN, KC_EXLM)   \
-    X(41, KC_I, KC_O, KC_MINS)      \
-    X(43, KC_COMM, KC_DOT, KC_UNDS) \
-    X(44, KC_DOT, KC_QUOT, KC_GRV)  \
-    X(45, KC_EQL, KC_W, KC_QU)      \
-    X(46, KC_EQL, KC_S, KC_Q)       \
-    X(47, KC_UNDS, KC_X, KC_Z)
+    X(41, KC_I, KC_O, KC_MINS)
 #define COMBOS_SYM(X)               \
     X(48, KC_UNDS, KC_QUOT, LR_QUO) \
     X(49, KC_CIRC, KC_DQUO, LR_DQU) \
@@ -420,7 +420,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_SYM] = LAYOUT(
      KC_LGUI, KC_GRV,  KC_LPRN, KC_EXLM, KC_PIPE, KC_AT,                                       KC_DQUO, KC_CIRC, KC_QUES, KC_PERC, KC_0,    _______,
-     KC_LCTL, KC_LCBR, KC_ASTR, KC_DLR,  KC_RPRN, KC_RCBR,                                     KC_QUOT, KC_UNDS, KC_EQL,  KC_BSLS, KC_COLN, _______,
+     KC_LCTL, KC_LCBR, KC_ASTR, KC_DLR,  KC_RCBR, KC_RPRN,                                     KC_QUOT, KC_UNDS, KC_EQL,  KC_BSLS, KC_COLN, _______,
      KC_LCA,  KC_TILD, KC_LBRC, KC_HASH, KC_AMPR, KC_RBRC, KC_LCTL, _______, _______, KC_LSFT, KC_SLSH, KC_MINS, KC_PPLS, KC_LT,   KC_GT,   KC_Z,
                                 _______, _______, _______, _______, _______, KC_LALT, KC_SPC,  KC_LCTL, KC_COMM, KC_DOT
     ),
