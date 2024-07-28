@@ -258,15 +258,16 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     X(47, KC_UNDS, KC_X, KC_Z)      \
     X(39, KC_L, KC_SCLN, KC_EXLM)   \
     X(26, KC_M, KC_COMM, KC_LT)     \
-    X(27, KC_M, KC_DOT, KC_GT)      \
-    //X(28, KC_A, KC_S, KC_SLSH)      \
-    X(29, KC_S, KC_D, KC_ASTR)      \
-    X(30, KC_D, KC_F, KC_DLR)       \
-    X(31, KC_Z, KC_X, KC_AT)        \
-    X(32, KC_X, KC_C, KC_HASH)      \
-    X(33, KC_C, KC_V, KC_AMPR)      \
-    X(37, KC_J, KC_K, KC_UNDS)      \
-    X(38, KC_K, KC_L, KC_EQL)       \
+    X(27, KC_M, KC_DOT, KC_GT)
+#define COMBOS_BAD_QUERTY(X)   \
+    X(28, KC_A, KC_S, KC_SLSH) \
+    X(29, KC_S, KC_D, KC_ASTR) \
+    X(30, KC_D, KC_F, KC_DLR)  \
+    X(31, KC_Z, KC_X, KC_AT)   \
+    X(32, KC_X, KC_C, KC_HASH) \
+    X(33, KC_C, KC_V, KC_AMPR) \
+    X(37, KC_J, KC_K, KC_UNDS) \
+    X(38, KC_K, KC_L, KC_EQL)  \
     X(41, KC_I, KC_O, KC_MINS)
 #define COMBOS_SYM(X)               \
     X(48, KC_UNDS, KC_QUOT, LR_QUO) \
@@ -275,21 +276,22 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     X(51, KC_LBRC, KC_HASH, LR_BRC) \
     X(52, KC_LT, KC_GT, LR_TRI)
 
+#define ADAPTIVE_KEYS_DEF1() \
+    AK_SND_ONLY_START(KC_G)  \
+    R_SND(KC_M, KC_L)        \
+    AK_SND_ONLY_START(KC_U)  \
+    R_SND(KC_H, KC_A)        \
+    AK_SND_ONLY_START(KC_A)  \
+    R_SND(KC_H, KC_U)        \
+    AK_SND_ONLY_START(KC_E)  \
+    R_SND(KC_H, KC_O)        \
+    AK_SND_ONLY_START(KC_B)  \
+    R_SND(KC_D, KC_L)        \
+    AK_SND_ONLY_START(KC_P)  \
+    R_SND(KC_M, KC_L)        \
+    AK_SND_ONLY_START(KC_O)  \
+    R_SND(KC_H, KC_E)
 #define ADAPTIVE_KEYS_DEF()    \
-    AK_SND_ONLY_START(KC_G)    \
-    R_SND(KC_M, KC_L)          \
-    AK_SND_ONLY_START(KC_U)    \
-    R_SND(KC_H, KC_A)          \
-    AK_SND_ONLY_START(KC_A)    \
-    R_SND(KC_H, KC_U)          \
-    AK_SND_ONLY_START(KC_E)    \
-    R_SND(KC_H, KC_O)          \
-    AK_SND_ONLY_START(KC_B)    \
-    R_SND(KC_D, KC_L)          \
-    AK_SND_ONLY_START(KC_P)    \
-    R_SND(KC_M, KC_L)          \
-    AK_SND_ONLY_START(KC_O)    \
-    R_SND(KC_H, KC_E)          \
     AK_SND_ONLY_START(KC_QUOT) \
     R_SND(KC_QUOT, KR_QUO)     \
     AK_SND_ONLY_START(KC_DQUO) \
