@@ -249,25 +249,25 @@ const key_override_t *key_overrides[] = {
 #define DTH_REG(KC) register_code16(MOD_BIT(KC))
 #define DTH_UREG(KC) unregister_code16(MOD_BIT(KC))
 #define DTH_SEND(STR) SEND_STRING(STR)
-#define TAP_DANCE_TABLE(X)                                                                      \
-    X(DT_PRN, DANCE_DOUBLE_TAP, NOP, KC_LPRN, LR_PRN)                                           \
-    X(DT_CBR, DANCE_DOUBLE_TAP, NOP, KC_LCBR, LR_CBR)                                           \
-    X(DT_BRC, DANCE_DOUBLE_TAP, NOP, KC_LBRC, LR_BRC)                                           \
-    X(DT_TRI, DANCE_DOUBLE_TAP, NOP, KC_LT, LR_TRI)                                             \
-    X(DT_QUO, DANCE_DOUBLE_TAP, NOP, KC_QUOT, LR_QUO)                                           \
-    X(DT_DQU, DANCE_DOUBLE_TAP, NOP, KC_DQUO, LR_DQU)                                           \
-    X(DT_GRV, DANCE_DOUBLE_TAP, NOP, KC_GRV, LR_GRV)                                            \
-    X(DB_LEFT, DANCE_DOUBLE_TAP, NOP, KC_LEFT, CC_LEFT)                                         \
-    X(DB_RGHT, DANCE_DOUBLE_TAP, NOP, KC_RIGHT, CC_RIGHT)                                       \
-    X(DB_UP, DANCE_DOUBLE_TAP, NOP, KC_UP, CC_UP)                                               \
-    X(DB_DOWN, DANCE_DOUBLE_TAP, NOP, KC_DOWN, CC_DOWN)                                         \
-    X(CTRL_LP, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LPRN, DTH_MOD, DTH_UMOD, KC_LCTL)         \
-    X(TH_LPRN, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LPRN, DTH_SEND, NOP, "()" SS_TAP(X_LEFT)) \
-    X(TH_LBRC, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LBRC, DTH_SEND, NOP, "[]" SS_TAP(X_LEFT)) \
-    X(TH_LCBR, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LCBR, DTH_SEND, NOP, "{}" SS_TAP(X_LEFT)) \
-    X(TH_QUOT, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_QUOT, DTH_SEND, NOP, "'" SS_TAP(X_LEFT))  \
-    X(TH_DQUO, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_DQUO, DTH_SEND, NOP, "\"" SS_TAP(X_LEFT)) \
-    X(EQL_H_Q, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_EQL, DTH_SEND, NOP, "q")                  \
+#define TAP_DANCE_TABLE(X)                                                                        \
+    X(DT_PRN, DANCE_DOUBLE_TAP, NOP, KC_LPRN, LR_PRN)                                             \
+    X(DT_CBR, DANCE_DOUBLE_TAP, NOP, KC_LCBR, LR_CBR)                                             \
+    X(DT_BRC, DANCE_DOUBLE_TAP, NOP, KC_LBRC, LR_BRC)                                             \
+    X(DT_TRI, DANCE_DOUBLE_TAP, NOP, KC_LT, LR_TRI)                                               \
+    X(DT_QUO, DANCE_DOUBLE_TAP, NOP, KC_QUOT, LR_QUO)                                             \
+    X(DT_DQU, DANCE_DOUBLE_TAP, NOP, KC_DQUO, LR_DQU)                                             \
+    X(DT_GRV, DANCE_DOUBLE_TAP, NOP, KC_GRV, LR_GRV)                                              \
+    X(DB_LEFT, DANCE_DOUBLE_TAP, NOP, KC_LEFT, CC_LEFT)                                           \
+    X(DB_RGHT, DANCE_DOUBLE_TAP, NOP, KC_RIGHT, CC_RIGHT)                                         \
+    X(DB_UP, DANCE_DOUBLE_TAP, NOP, KC_UP, CC_UP)                                                 \
+    X(DB_DOWN, DANCE_DOUBLE_TAP, NOP, KC_DOWN, CC_DOWN)                                           \
+    X(CTRL_LP, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LPRN, DTH_MOD, DTH_UMOD, KC_LCTL)           \
+    X(TH_LPRN, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LPRN, DTH_SEND, NOP, "()" SS_TAP(X_LEFT))   \
+    X(TH_LBRC, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LBRC, DTH_SEND, NOP, "[]" SS_TAP(X_LEFT))   \
+    X(TH_LCBR, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_LCBR, DTH_SEND, NOP, "{}" SS_TAP(X_LEFT))   \
+    X(TH_QUOT, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_QUOT, DTH_SEND, NOP, "''" SS_TAP(X_LEFT))   \
+    X(TH_DQUO, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_DQUO, DTH_SEND, NOP, "\"\"" SS_TAP(X_LEFT)) \
+    X(EQL_H_Q, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_EQL, DTH_SEND, NOP, "q")                    \
     X(UND_H_Z, DANCE_TAP_HOLD, DANCE_TAP_HOLD_FNS, KC_UNDS, DTH_SEND, NOP, "z")
 
 #define X__NAME(N, ...) _##N
@@ -353,16 +353,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_HOLY] = LAYOUT(
-     KC_GRV,  KC_EQL,  KC_PLUS, KC_EXLM, KC_LT,   KC_GT,                                       KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_BSPC,
-     KC_RPRN, KC_AMPR, KC_ASTR, KC_PIPE, KC_LBRC, KC_RBRC,                                     DB_LEFT, DB_DOWN, DB_UP,   DB_RGHT, KC_BSLS, TH_DQUO,
-     KC_RCBR, KC_PERC, UNASSIN, KC_HASH, KC_TILD, KC_AT,   _______, _______, _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
+     KC_GRV,  KC_PIPE, KC_PLUS, KC_EXLM, KC_LT,   KC_GT,                                       KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_BSPC,
+     KC_RPRN, KC_LBRC, KC_ASTR, KC_AMPR, KC_EQL,  KC_RBRC,                                     DB_LEFT, DB_DOWN, DB_UP,   DB_RGHT, KC_BSLS, TH_DQUO,
+     KC_RCBR, KC_PERC, KC_MINS, KC_HASH, KC_TILD, KC_AT,   _______, _______, _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
                                 _______, _______, _______, _______, _______, _______, KC_SPC,  _______, _______, _______
     ),
 
     [_HOLYR] = LAYOUT(
-     KC_GRV,  KC_EQL,  KC_PLUS, KC_EXLM, KC_LT,   KC_GT,                                       KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_BSPC,
-     KC_RPRN, KC_AMPR, KC_ASTR, KC_PIPE, KC_LBRC, KC_RBRC,                                     DB_LEFT, DB_DOWN, DB_UP,   DB_RGHT, KC_BSLS, TH_DQUO,
-     KC_RCBR, KC_PERC, KC_QUES, KC_HASH, KC_TILD, KC_AT,   _______, _______, _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
+     KC_GRV,  KC_PIPE, KC_PLUS, KC_EXLM, KC_LT,   KC_GT,                                       KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_BSPC,
+     KC_RPRN, KC_LBRC, KC_ASTR, KC_AMPR, KC_EQL,  KC_RBRC,                                     DB_LEFT, DB_DOWN, DB_UP,   DB_RGHT, KC_BSLS, TH_DQUO,
+     KC_RCBR, KC_PERC, KC_MINS, KC_HASH, KC_TILD, KC_AT,   _______, _______, _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
                                 _______,  _______, _______, KC_SPC,  _______, _______, _______, _______, _______, _______
     ),
 
