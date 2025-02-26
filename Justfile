@@ -2,6 +2,7 @@ set shell := ["fish", "-c"]
 set positional-arguments
 
 kb := "splitkb/kyria/rev3"
+# kb := "splitkb/halcyon/kyria/rev4"
 km := "indianboy42"
 
 qmk := "qmk"

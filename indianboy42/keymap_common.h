@@ -120,7 +120,7 @@ enum { IB42_LAYER_TABLE(X_KC_ENUM) };
 #define KENT(X)             X(KC_ENTCMBO,     KC_EQL,        _,           LCS(KC_P),      KC_SCLN,    KC_NO,         KC_EQL,     KC_0)
 #define KLSFT(X)            X(KC_LSFT,        _,             KC_LCA,      KC_NO,          KC_ALTNUMS, _,             KC_ALTNUMS, KC_CAPS)
 #define KZ(X)               X(KC_Z,           LCA(KC_Z),     _,           KC_F21,         KC_LCBR,    KC_NO,         KC_LBRC,    KC_F7)
-#define KX(X)               X(KC_X,           LCA(KC_X),     _,           KC_F22,         KC_NO,      KC_CIRC,       KC_RBRC,    KC_F8)
+#define KX(X)               X(KC_X,           LCA(KC_X),     _,           KC_F22,         KC_PLUS,      KC_CIRC,     KC_RBRC,    KC_F8)
 #define KC(X)               X(KC_C,           MEH(KC_C),     _,           KC_F23,         KC_HASH,    KC_ASTR,       KC_PIPE,    KC_F9)
 #define KV(X)               X(KC_V,           MEH(KC_V),     _,           KC_F24,         KC_AMPR,    KC_SLSH,       KC_QUOT,    KC_F10)
 #define KB(X)               X(KC_B,           KC_QUOT,       _,           KC_NO,          KC_RCBR,    KC_NO,         KC_DQUO,    KC_F11)
