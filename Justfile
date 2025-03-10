@@ -1,9 +1,11 @@
 set shell := ["fish", "-c"]
 set positional-arguments
 
-kb := "splitkb/kyria/rev3"
-# kb := "splitkb/halcyon/kyria/rev4"
+# kb := "splitkb/kyria/rev3"
+kb := "splitkb/halcyon/kyria/rev4"
 km := "indianboy42"
+# km := "indianboy42_vial"
+args := "-e HLC_CIRQUE_TRACKPAD=1"
 
 qmk := "qmk"
 
@@ -14,7 +16,7 @@ export LDFLAGS := ""
 # First/Default command:
 # Compile a keyboard
 flash:
-    {{qmk}} flash -kb {{kb}} -km {{km}}
+    {{qmk}} flash -kb {{kb}} -km {{km}} {{args}}
 
 
 # Run qmk inside a nix-shell
@@ -31,7 +33,7 @@ doctor:
 
 # Compile a keyboard
 compile:
-    {{qmk}} compile -kb {{kb}} -km {{km}}
+    {{qmk}} compile -kb {{kb}} -km {{km}}  {{args}}
 
 edit:
     $EDITOR {{justfile_directory()}}/indianboy42/keymap_common.h {{justfile_directory()}}/keyboards/{{kb}}/keymaps/{{km}}/keymaps.c
